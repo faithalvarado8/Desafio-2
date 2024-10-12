@@ -3,18 +3,18 @@
 
 class Compartimiento{
 private:
-    double capacidad_;
-    double cantidadActual_;
+    float capacidad_;
+    float cantidadActual_;
 
 public:
     //Constructor
-    Compartimiento(double capacidad);
+    Compartimiento(float capacidad);
     //Getters
-    double getCapacidad() const;
-    double getCantidadActual() const;
+    float getCapacidad() const;
+    float getCantidadActual() const;
 
     //Setters
-    void setCantidadActual(double cantidad);
+    void setCantidadActual(float cantidad);
 };
 
 #endif // COMPARTIMIENTO_H
