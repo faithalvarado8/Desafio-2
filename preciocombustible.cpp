@@ -1,5 +1,5 @@
 #include "preciocombustible.h"
-#include <iostream>
+#include <stdexcept>
 
 PrecioCombustible::PrecioCombustible(float precioNorteRegular, float precioNortePremium, float precioNorteEcoExtra,
                                      float precioCentroRegular, float precioCentroPremium, float precioCentroEcoExtra,
