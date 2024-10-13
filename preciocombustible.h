@@ -1,15 +1,13 @@
 #ifndef PRECIOCOMBUSTIBLE_H
 #define PRECIOCOMBUSTIBLE_H
 #include <string>
-
 using namespace std;
-
-enum Region { NORTE, CENTRO, SUR };
-enum TipoCombustible { REGULAR, PREMIUM, ECOEXTRA };
 
 class PrecioCombustible
 {
 public:
+    enum Region { NORTE, CENTRO, SUR };
+    enum TipoCombustible { REGULAR, PREMIUM, ECOEXTRA };
     PrecioCombustible(float precioNorteRegular, float precioNortePremium, float precioNorteEcoExtra,
                       float precioCentroRegular, float precioCentroPremium, float precioCentroEcoExtra,
                       float precioSurRegular, float precioSurPremium, float precioSurEcoExtra);
