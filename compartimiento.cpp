@@ -4,10 +4,10 @@
 Compartimiento::Compartimiento(float capacidad): capacidad_(capacidad), cantidadActual_(0.0) {}
 
 //Getters
-double Compartimiento::getCapacidad() const {
+float Compartimiento::getCapacidad() const {
     return capacidad_;
 }
-double Compartimiento::getCantidadActual() const{
+float Compartimiento::getCantidadActual() const{
     return cantidadActual_;
 }
 //Setters
