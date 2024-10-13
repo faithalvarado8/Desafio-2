@@ -21,18 +21,19 @@ Transaccion::Transaccion(const string& tipoCombustible, float cantidadCombustibl
 void Transaccion::mostrarTransaccion() const {
 
     cout << endl << endl << endl;
-    cout << "------------------------------------------------------" << endl;
-    cout << "                        TERMAX                        " << endl;
-    cout << "                 RECIBO DE TRANSACCION                " << endl;
-    cout << "------------------------------------------------------" << endl;
+    cout << "----------------------------------------------------------------" << endl;
+    cout << "                              TERMAX                            " << endl;
+    cout << "                      RECIBO DE TRANSACCION                     " << endl;
+    cout << "----------------------------------------------------------------" << endl;
 
-    cout << "   Tipo de combustible: " << tipoCombustible_ << endl;
-    cout << "   Cantidad de combustible: " << cantidadCombustible_ << " litros" <<  endl;
-    cout << "   Precio del combustible: " << "$" << precioCombustible_ << endl;
-    cout << "   Monto: " << "$" << monto_ << endl;
-    cout << "------------------------------------------------------" << endl;
-    cout << "   Forma de pago: " << formaPago_ << endl;
-    cout << "   Documento del cliente: " << docCliente_ << endl;
-    cout << "   Fecha y hora: " << fechahora_ << endl;
-    cout << "------------------------------------------------------" << endl;
+    unsigned int ancho = 40;
+    cout << setw(ancho) << left << "   Tipo de combustible:" << tipoCombustible_ << endl;
+    cout << setw(ancho) << left << "   Cantidad de combustible (litros):" << cantidadCombustible_ << endl;
+    cout << setw(ancho) << left << "   Precio del combustible ($/litro): " << fixed << setprecision(2) << precioCombustible_ << endl;
+    cout << setw(ancho) << left << "   Monto ($): " << fixed << setprecision(2) << monto_ << endl;
+    cout << "----------------------------------------------------------------" << endl;
+    cout << setw(ancho) << left << "   Forma de pago:" << formaPago_ << endl;
+    cout << setw(ancho) << left << "   Documento del cliente:" << docCliente_ << endl;
+    cout << setw(ancho) << left << "   Fecha y hora:" << fechahora_ << endl;
+    cout << "----------------------------------------------------------------" << endl;
 }
