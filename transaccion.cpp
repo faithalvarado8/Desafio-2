@@ -1,14 +1,16 @@
 #include "transaccion.h"
 
+Transaccion::Transaccion(){}
+
 Transaccion::Transaccion(const string& tipoCombustible, float cantidadCombustible,
                          const string& formaPago, const string& docCliente, float monto,
                          float precioCombustible):
-    tipoCombustible_(tipoCombustible),
-    cantidadCombustible_(cantidadCombustible),
-    formaPago_(formaPago),
-    docCliente_(docCliente),
-    monto_(monto),
-    precioCombustible_(precioCombustible){
+                         tipoCombustible_(tipoCombustible),
+                         cantidadCombustible_(cantidadCombustible),
+                         formaPago_(formaPago),
+                         docCliente_(docCliente),
+                         monto_(monto),
+                         precioCombustible_(precioCombustible){
 
     // Obtener la fecha y hora del sistema
     auto now = chrono::system_clock::now();
@@ -18,6 +20,7 @@ Transaccion::Transaccion(const string& tipoCombustible, float cantidadCombustibl
     fechahora_ = ss.str();
 }
 
+//Metodo de despliegue
 void Transaccion::mostrarTransaccion() const {
 
     cout << endl << endl << endl;
