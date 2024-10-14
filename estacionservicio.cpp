@@ -5,6 +5,7 @@ EstacionServicio::EstacionServicio(string& nombre, string& codigo,string& gerent
     : nombre_(nombre), codigo_(codigo), gerente_(gerente), region_(region), coordenadaGPS_(coordenadaGPS), numIslas_(0), numMaquinasSurtidoras_(0), numTransacciones_(0) {
     maquinasSurtidoras_ = new MaquinaSurtidora*[12];
     historicoTransacciones_ = new Transaccion*[100];
+    precioCombustible_ = PrecioCombustible(10000.0, 12000.0, 14000.0 , 9500.0, 11500.0, 13500.0, 10500.0, 12500.0, 14500.0); // Inicializado con valores predeterminados
 }
 
 EstacionServicio::~EstacionServicio() {
@@ -52,8 +53,8 @@ void EstacionServicio::setCoordenadaGPS(const CoordenadaGPS& coordenadaGPS) {
     coordenadaGPS_ = coordenadaGPS;
 }
 
-float EstacionServicio::getPrecioCombustible(enum TipoCombustible tipo, enum Region region, PrecioCombustible& precioCombustible) {
-    return precioCombustible.getPrecio(tipo, region);
+float EstacionServicio::getPrecioCombustible(enum TipoCombustible tipo) {
+    return precioCombustible_.getPrecio(region_,tipo);
 }
 
 void EstacionServicio::agregarMaquinaSurtidora(MaquinaSurtidora* maquinaSurtidora) {
