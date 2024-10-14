@@ -17,8 +17,8 @@ private:
     string fechahora_;
 
 public:
-    Transaccion(const std::string& tipoCombustible, float cantidadCombustible,
-                const std::string& formaPago, const std::string& docCliente, float monto,
+    Transaccion(const string& tipoCombustible, float cantidadCombustible,
+                const string& formaPago, const string& docCliente, float monto,
                 float precioCombustible);
     void mostrarTransaccion() const; //Metodo de despliegue
 };
