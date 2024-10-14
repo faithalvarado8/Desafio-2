@@ -1,12 +1,12 @@
 #include "rednacional.h"
 
-RedNacional::RedNacional(int maxEstaciones) : numEstaciones_(0) {
+RedNacional::RedNacional(int maxEstaciones) : numEstaciones_(0), maxEstaciones_(maxEstaciones) {
     estaciones_ = new EstacionServicio*[maxEstaciones];
 }
 
 RedNacional::~RedNacional() {
     for (int i = 0; i < numEstaciones_; ++i) {
-        delete estaciones_[i]; // Liberar cada estación antes de liberar el arreglo
+        delete estaciones_[i]; // Liberar cada estacion antes de liberar el arreglo
     }
     delete[] estaciones_;
 }
@@ -33,12 +33,16 @@ void RedNacional::eliminarEstacionServicio(int indice) {
 }
 
 void RedNacional::calcularVentasTotales() {
-    float ventasTotales = 0.0;
-    for (int i = 0; i < numEstaciones_; i++) {
-        ventasTotales += estaciones_[i]->getVentasTotales();
+    if (numEstaciones_ > 0) { // Verificar si la red tiene Aestaciones
+        float ventasTotales = 0.0;
+        for (int i = 0; i < numEstaciones_; i++) {
+            ventasTotales += estaciones_[i]->getVentasTotales();
+        }
+        cout << "Ventas totales de la red: " << ventasTotales << endl;
+    } else {
+        cerr << "Error: La red no tiene estaciones." << endl;
     }
-    cout << "Ventas totales de la red: " << ventasTotales << endl;
-}
+    }
 
 void RedNacional::setPreciosCombustible(Region region, float precioRegular, float precioPremium, float precioEcoExtra) {
     preciosCombustible_.setPrecio(region, "REGULAR", precioRegular);
