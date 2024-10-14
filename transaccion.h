@@ -17,6 +17,7 @@ private:
     string fechahora_;
 
 public:
+    Transaccion();
     Transaccion(const string& tipoCombustible, float cantidadCombustible,
                 const string& formaPago, const string& docCliente, float monto,
                 float precioCombustible);
