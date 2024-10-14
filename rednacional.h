@@ -1,6 +1,5 @@
 #ifndef REDNACIONAL_H
 #define REDNACIONAL_H
-#include <iostream>
 #include "preciocombustible.h"
 #include "estacionservicio.h"
 
@@ -8,6 +7,7 @@ class RedNacional {
 private:
     EstacionServicio** estaciones_; // Arreglo de punteros a EstacionServicio
     int numEstaciones_; // Numero de estaciones en la red
+    int maxEstaciones_; // Maximo numero de estaciones permitidas
     PrecioCombustible preciosCombustible_; // Objeto de la clase PrecioCombustible
 
 public:
