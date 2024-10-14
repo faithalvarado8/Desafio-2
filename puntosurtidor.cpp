@@ -1,12 +1,16 @@
 #include "puntosurtidor.h"
 #include "isla.h"
 
-PuntoSurtidor::PuntoSurtidor(string codigo, string modelo, bool activado, unsigned int numTransacciones_):
-    codigo_(codigo), modelo_(modelo), activado_(activado), numTransacciones_(numTransacciones_) {
+unsigned int PuntoSurtidor::contadorCodigo = 100;
+
+PuntoSurtidor::PuntoSurtidor(string modelo, bool activado, unsigned int numTransacciones_):
+    modelo_(modelo), activado_(activado), numTransacciones_(numTransacciones_) {
     transacciones_ = new Transaccion*[10];
+
+    codigo_ = "PS-" + to_string(contadorCodigo++);
 }
 
-string PuntoSurtidor::getCodigo(){
+string PuntoSurtidor::getCodigo()const{
     return codigo_;
 }
 
@@ -14,12 +18,16 @@ string PuntoSurtidor::getModelo(){
     return modelo_;
 }
 
+bool PuntoSurtidor::setEstado(){
+    return this->activado_;
+}
+
 bool PuntoSurtidor::getEstado(){
     return this->activado_;
 }
 
 void PuntoSurtidor::realizarVenta(float precioCombustible) {
-    // Validación de datos
+
     if (activado_) {
 
         char categoriaCombustible;
@@ -98,7 +106,6 @@ void PuntoSurtidor::registrarVenta(Transaccion* transaccion) {
         // Crear un nuevo arreglo de punteros a Transaccion con mayor tamaño
         Transaccion** temp = new Transaccion*[20];
 
-        // Copiar los punteros al nuevo arreglo
         for (unsigned int i = 0; i < this->numTransacciones_; i++) {
             temp[i] = this->transacciones_[i]; // Copiar puntero, no objeto
         }
@@ -116,22 +123,19 @@ void PuntoSurtidor::registrarVenta(Transaccion* transaccion) {
 void PuntoSurtidor::mostrarHistorico() {
     cout << "Historial de transacciones:\n";
 
-    // Verificar si hay transacciones
     if (numTransacciones_ == 0) {
         cout << "No hay transacciones registradas." << endl;
-        return; // Salir si no hay transacciones
+        return;
     }
 
-    // Recorrer el arreglo de transacciones
     for (unsigned int i = 0; i < numTransacciones_; ++i) {
-        // Supongamos que tienes un método en la clase Transaccion que imprime los detalles
-        transacciones_[i]->mostrarTransaccion(); // Llama a tu función existente para imprimir el recibo
+        transacciones_[i]->mostrarTransaccion(); //Imprimir el recibo de la transaccion
     }
 }
 
 PuntoSurtidor::~PuntoSurtidor() {
     for (unsigned int i = 0; i < numTransacciones_; ++i) {
-        delete transacciones_[i]; // Liberar cada transacción
+        delete transacciones_[i];
     }
-    delete[] transacciones_; // Liberar el arreglo de transacciones
+    delete[] transacciones_;
 }
