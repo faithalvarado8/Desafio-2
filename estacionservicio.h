@@ -1,7 +1,6 @@
 #ifndef ESTACIONSERVICIO_H
 #define ESTACIONSERVICIO_H
 
-#include <iostream>
 #include <string>
 #include "preciocombustible.h"
 #include "maquinasurtidora.h"
@@ -25,6 +24,7 @@ private:
     int numMaquinasSurtidoras_;
     Transaccion** historicoTransacciones_;
     int numTransacciones_;
+    PrecioCombustible precioCombustible_;
 
 public:
     EstacionServicio(string& nombre, string& codigo, string& gerente, Region region, CoordenadaGPS coordenadaGPS);
@@ -39,7 +39,7 @@ public:
     void setRegion(Region region);
     CoordenadaGPS getCoordenadaGPS();
     void setCoordenadaGPS(const CoordenadaGPS& coordenadaGPS);
-    float getPrecioCombustible(enum TipoCombustible tipo, enum Region region, PrecioCombustible& precioCombustible);
+    float getPrecioCombustible(enum TipoCombustible tipo);
     void agregarMaquinaSurtidora(MaquinaSurtidora* maquinaSurtidora);
     void activarMaquinaSurtidora(MaquinaSurtidora* maquinaSurtidora);
     void desactivarMaquinaSurtidora(MaquinaSurtidora* maquinaSurtidora);
