@@ -10,15 +10,18 @@ using namespace std;
 class PuntoSurtidor {
 private:
     bool activado_;
+    static unsigned int contadorCodigo;
     string codigo_;
     string modelo_;
     Transaccion** transacciones_;
     unsigned int numTransacciones_; //Para establecer el tamaño del arreglo
 
 public:
-    PuntoSurtidor(string codigo, string modelo, bool activado, unsigned int numTransacciones_);
-    string getCodigo();
+    PuntoSurtidor(string modelo, bool activado, unsigned int numTransacciones_);
+    string getCodigo() const;
+    void setCodigo(const string& codigo);
     string getModelo();
+    bool setEstado();
     bool getEstado();
     void realizarVenta(float precioCombustible);
     void registrarVenta(Transaccion* venta);
@@ -26,8 +29,6 @@ public:
     void mostrarHistorico();
 
     ~PuntoSurtidor();
-
-    //void actualizarVentasRealizadas(Transaccion transaccion);
 };
 
 #endif // PUNTOSURTIDOR_H
