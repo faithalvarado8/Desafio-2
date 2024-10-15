@@ -19,7 +19,9 @@ private:
     float latitud_;
     float longitud_;
     Tanque* tanque_;
-    Isla* islas_;
+    Isla** islas_; // Arreglo dinámico de islas
+    unsigned int numIslas_;        // Número actual de islas en la estación
+    const unsigned int maxIslas_ = 3; // Capacidad máxima de islas
     unsigned int numPuntosSurtidores_ = 0;
     unsigned int maxPuntosSurtidores_;
     PuntoSurtidor** puntosSurtidores_;
@@ -32,6 +34,7 @@ public:
     EstacionServicio();
     EstacionServicio(string& nombre, string& gerente, string& region, unsigned int maxPuntosSurtidores);
     ~EstacionServicio();
+
     string getNombre();
     void setNombre(const string& nombre);
     string getCodigo() const;
@@ -41,18 +44,19 @@ public:
     string getRegion();
     void setRegion(const string& region);
     string getCoordenadas();  //Retorna las coordenadas en formato string
+
+    void agregarIsla(Isla* nuevaIsla);
     void agregarPuntoSurtidor(PuntoSurtidor* puntoSurtidor);
     void eliminarPuntoSurtidor(const string& codigo);
     void activarPuntoSurtidor(const string& codigo);
     void desactivarPuntoSurtidor(const string& codigo);
     void setCapacidadTanque();
+
     void simularVenta();
     void consultarTransaccionesPuntoSurtidor(const string& codigo);
     void reportarLitrosVendidos();
     void calcularVentasTotales();
     bool verificarFugas();
-
-
 
 };
 
