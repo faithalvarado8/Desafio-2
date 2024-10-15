@@ -11,18 +11,106 @@ EstacionServicio::EstacionServicio() {}
 
 EstacionServicio::EstacionServicio(string& nombre, string& gerente, string& region,
                                    unsigned int maxPuntosSurtidores)
-                                   : nombre_(nombre), gerente_(gerente), region_(region),
-                                   maxPuntosSurtidores_(maxPuntosSurtidores) {
-    //Genera el codigo para la nueva instancia de estacion
+    : nombre_(nombre), gerente_(gerente), region_(region),
+    maxPuntosSurtidores_(maxPuntosSurtidores) {
+
+    // Genera el código para la nueva instancia de estación
     codigo_ = "EST-" + to_string(contadorCodigo++);
+
+    // Crear e inicializar el tanque con capacidades generadas aleatoriamente
+    setCapacidadTanque();  // Aquí se crea el tanque
+
+    // Inicializar el arreglo dinámico de islas
+    islas_ = new Isla*[3];  // Máximo 3 islas
+    islas_[0] = new Isla("Isla 1", 4);  // Primera isla con 4 surtidores como máximo
+    cout << "Isla creada exitosamente" << endl;
+
+    // Crear 2 surtidores para la primera isla
+    PuntoSurtidor* surtidor1 = new PuntoSurtidor("Modelo A", true, 0);
+    PuntoSurtidor* surtidor2 = new PuntoSurtidor("Modelo B", true, 0);
+
+    // Agregar los surtidores a la primera isla
+    islas_[0]->agregarPuntoSurtidor(surtidor1);
+    islas_[0]->agregarPuntoSurtidor(surtidor2);
+
+    numIslas_ = 1;  // Hemos agregado una isla
 
     // Inicializar el arreglo de puntos surtidores
     puntosSurtidores_ = new PuntoSurtidor*[maxPuntosSurtidores_];
     numPuntosSurtidores_ = 0;
-
-    // Inicializar las coordenadas GPS
-    setCoordenadasGPS();
 }
+
+void EstacionServicio::setCapacidadTanque() {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> distRegular(100, 200);
+    uniform_int_distribution<> distPremium(100, 200);
+    uniform_int_distribution<> distEcoExtra(100, 200);
+
+    float capacidadRegular = distRegular(gen);
+    float capacidadPremium = distPremium(gen);
+    float capacidadEcoExtra = distEcoExtra(gen);
+
+    // Crear el tanque con las capacidades generadas
+    tanque_ = new Tanque(capacidadRegular, capacidadPremium, capacidadEcoExtra);
+    cout << "Capacidades asignadas - Regular: " << tanque_->getRegular().getCapacidad()
+         << ", Premium: " << tanque_->getPremium().getCapacidad()
+         << ", EcoExtra: " << tanque_->getEcoExtra().getCapacidad() << endl;
+
+    tanque_->getRegular().setCantidadActual(0.95 * capacidadRegular);
+    tanque_->getPremium().setCantidadActual(0.95 * capacidadPremium);
+    tanque_->getEcoExtra().setCantidadActual(0.95 * capacidadEcoExtra);
+
+    cout << "Cantidades suministradas - Regular: " << tanque_->getRegular().getCantidadActual()
+         << ", Premium: " << tanque_->getPremium().getCantidadActual()
+         << ", EcoExtra: " << tanque_->getEcoExtra().getCantidadActual() << endl << endl << endl;
+}
+
+
+
+
+// EstacionServicio::EstacionServicio(string& nombre, string& gerente, string& region,
+//                                    unsigned int maxPuntosSurtidores)
+//     : nombre_(nombre), gerente_(gerente), region_(region),
+//     maxPuntosSurtidores_(maxPuntosSurtidores) {
+
+//     codigo_ = "EST-" + to_string(contadorCodigo++);
+
+//     // Inicializar el arreglo de puntos surtidores (vacío en este caso)
+//     puntosSurtidores_ = new PuntoSurtidor*[maxPuntosSurtidores_];
+//     numPuntosSurtidores_ = 0;
+
+//     // Inicializar el arreglo dinámico de islas
+//     islas_ = new Isla*[3];  // Máximo 3 islas
+//     islas_[0] = new Isla("Isla 1", 4);  // Primer isla con 4 surtidores como máximo
+
+//     // Crear 2 surtidores para la primera isla
+//     PuntoSurtidor* surtidor1 = new PuntoSurtidor("Modelo A", true, 0);
+//     PuntoSurtidor* surtidor2 = new PuntoSurtidor("Modelo B", true, 0);
+
+//     // Agregar los surtidores a la primera isla
+//     islas_[0]->agregarPuntoSurtidor(surtidor1);
+//     islas_[0]->agregarPuntoSurtidor(surtidor2);
+
+//     numIslas_ = 1;  // Hemos agregado una isla
+// }
+
+
+
+// EstacionServicio::EstacionServicio(string& nombre, string& gerente, string& region,
+//                                    unsigned int maxPuntosSurtidores)
+//                                    : nombre_(nombre), gerente_(gerente), region_(region),
+//                                    maxPuntosSurtidores_(maxPuntosSurtidores) {
+//     //Genera el codigo para la nueva instancia de estacion
+//     codigo_ = "EST-" + to_string(contadorCodigo++);
+
+//     // Inicializar el arreglo de puntos surtidores
+//     puntosSurtidores_ = new PuntoSurtidor*[maxPuntosSurtidores_];
+//     numPuntosSurtidores_ = 0;
+
+//     // Inicializar las coordenadas GPS
+//     setCoordenadasGPS();
+// }
 
 string EstacionServicio::setCoordenadasGPS() {
     random_device rd;
@@ -124,31 +212,31 @@ void EstacionServicio::desactivarPuntoSurtidor(const string& codigo) {
 }
 
 // Método de EstacionServicio para asignar capacidades
-void EstacionServicio::setCapacidadTanque() {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> distRegular(100, 200);
-    uniform_int_distribution<> distPremium(100, 200);
-    uniform_int_distribution<> distEcoExtra(100, 200);
+// void EstacionServicio::setCapacidadTanque() {
+//     random_device rd;
+//     mt19937 gen(rd());
+//     uniform_int_distribution<> distRegular(100, 200);
+//     uniform_int_distribution<> distPremium(100, 200);
+//     uniform_int_distribution<> distEcoExtra(100, 200);
 
-    float capacidadRegular = distRegular(gen);
-    float capacidadPremium = distPremium(gen);
-    float capacidadEcoExtra = distEcoExtra(gen);
+//     float capacidadRegular = distRegular(gen);
+//     float capacidadPremium = distPremium(gen);
+//     float capacidadEcoExtra = distEcoExtra(gen);
 
-    // Crear el tanque con las capacidades generadas
-    tanque_ = new Tanque(capacidadRegular, capacidadPremium, capacidadEcoExtra);
-    cout << "Capacidades asignadas - Regular: " << tanque_->getRegular().getCapacidad()
-         << ", Premium: " << tanque_->getPremium().getCapacidad()
-         << ", EcoExtra: " << tanque_->getEcoExtra().getCapacidad() << endl;
+//     // Crear el tanque con las capacidades generadas
+//     tanque_ = new Tanque(capacidadRegular, capacidadPremium, capacidadEcoExtra);
+//     cout << "Capacidades asignadas - Regular: " << tanque_->getRegular().getCapacidad()
+//          << ", Premium: " << tanque_->getPremium().getCapacidad()
+//          << ", EcoExtra: " << tanque_->getEcoExtra().getCapacidad() << endl;
 
-    tanque_->getRegular().setCantidadActual(0.95*capacidadRegular);
-    tanque_->getPremium().setCantidadActual(0.95*capacidadPremium);
-    tanque_->getEcoExtra().setCantidadActual(0.95*capacidadEcoExtra);
+//     tanque_->getRegular().setCantidadActual(0.95*capacidadRegular);
+//     tanque_->getPremium().setCantidadActual(0.95*capacidadPremium);
+//     tanque_->getEcoExtra().setCantidadActual(0.95*capacidadEcoExtra);
 
-    cout << "Cantidades suministradas - Regular: " << tanque_->getRegular().getCantidadActual()
-         << ", Premium: " << tanque_->getPremium().getCantidadActual()
-         << ", EcoExtra: " << tanque_->getEcoExtra().getCantidadActual() << endl << endl << endl;
-}
+//     cout << "Cantidades suministradas - Regular: " << tanque_->getRegular().getCantidadActual()
+//          << ", Premium: " << tanque_->getPremium().getCantidadActual()
+//          << ", EcoExtra: " << tanque_->getEcoExtra().getCantidadActual() << endl << endl << endl;
+// }
 
 
 // Simular una venta
