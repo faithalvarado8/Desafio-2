@@ -137,9 +137,17 @@ void EstacionServicio::setCapacidadTanque() {
 
     // Crear el tanque con las capacidades generadas
     tanque_ = new Tanque(capacidadRegular, capacidadPremium, capacidadEcoExtra);
-    cout << "Capacidades asignadas - Regular: " << capacidadRegular
-         << ", Premium: " << capacidadPremium
-         << ", EcoExtra: " << capacidadEcoExtra << endl;
+    cout << "Capacidades asignadas - Regular: " << tanque_->getRegular().getCapacidad()
+         << ", Premium: " << tanque_->getPremium().getCapacidad()
+         << ", EcoExtra: " << tanque_->getEcoExtra().getCapacidad() << endl;
+
+    tanque_->getRegular().setCantidadActual(0.95*capacidadRegular);
+    tanque_->getPremium().setCantidadActual(0.95*capacidadPremium);
+    tanque_->getEcoExtra().setCantidadActual(0.95*capacidadEcoExtra);
+
+    cout << "Cantidades suministradas - Regular: " << tanque_->getRegular().getCantidadActual()
+         << ", Premium: " << tanque_->getPremium().getCantidadActual()
+         << ", EcoExtra: " << tanque_->getEcoExtra().getCantidadActual() << endl << endl << endl;
 }
 
 
@@ -153,7 +161,7 @@ void EstacionServicio::simularVenta() {
 
     // Contar surtidores activos
     unsigned int contadorActivos = 0;
-    cout << "Verificando surtidor: " << puntosSurtidores_[i]->getCodigo() << " Estado: " << (puntosSurtidores_[i]->getEstado() ? "Activo" : "Desactivado") << endl;
+    // cout << "Verificando surtidor: " << puntosSurtidores_[i]->getCodigo() << " Estado: " << (puntosSurtidores_[i]->getEstado() ? "Activo" : "Desactivado") << endl;
     for (unsigned int i = 0; i < numPuntosSurtidores_; i++) {
         cout << "Verificando surtidor: " << puntosSurtidores_[i]->getCodigo() << " Estado: " << (puntosSurtidores_[i]->getEstado() ? "Activo" : "Desactivado") << endl;
         if (puntosSurtidores_[i]->getEstado()) {  // Verificar si el surtidor está activo
