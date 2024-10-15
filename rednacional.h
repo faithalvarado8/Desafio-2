@@ -1,23 +1,22 @@
 #ifndef REDNACIONAL_H
 #define REDNACIONAL_H
-#include "preciocombustible.h"
-#include "estacionservicio.h"
 
-class RedNacional {
+#include"estacionservicio.h"
+
+class RedNacional{
 private:
-    EstacionServicio** estaciones_; // Arreglo de punteros a EstacionServicio
-    int numEstaciones_; // Numero de estaciones en la red
-    int maxEstaciones_; // Maximo numero de estaciones permitidas
-    PrecioCombustible preciosCombustible_; // Objeto de la clase PrecioCombustible
-
+    EstacionServicio** estaciones_;
+    unsigned int numEstaciones_;
+    unsigned int tamArregloEstaciones;
+    float preciosCombustible_[3][3];
 public:
-    RedNacional(int maxEstaciones); // Constructor
-    ~RedNacional(); // Destructor
-    void agregarEstacionServicio(EstacionServicio* estacion); // Agregar estacion a la red
-    void eliminarEstacionServicio(int indice); // Eliminar estacion de la red
-    void calcularVentasTotales(); // Calcular ventas totales de la red
-    void setPreciosCombustible(Region region, float precioRegular, float precioPremium, float precioEcoExtra); // Establecer precios de combustible
-    float getPrecioCombustible(TipoCombustible tipo, Region region); // Obtener precio de combustible
+    RedNacional();
+    ~RedNacional();
+    void agregarEstacion(EstacionServicio* nuevaEstacion);
+    void eliminarEstacion(string codigo);
+    void calcularVentasTotales();
+    void setPreciosCombustible(int region, float precioRegular, float precioPremium, float precioEcoExtra);
+    float getPreciosCombustible(int region, int tipoCombustible);
 };
 
 #endif // REDNACIONAL_H
