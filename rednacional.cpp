@@ -75,16 +75,32 @@ void RedNacional::eliminarEstacion(string codigoEstacion) {
         return;
     }
 
-    // Verifica si el puntero no es nulo antes de eliminar
-    if (estaciones_[indiceEstacion] != nullptr) {
-        delete estaciones_[indiceEstacion];
-        estaciones_[indiceEstacion] = nullptr; // Evita accesos posteriores
+    // Verificar si todos los surtidores están inactivos
+    EstacionServicio* estacion = estaciones_[indiceEstacion];
+    bool todosInactivos = true;
+
+    for (unsigned int j = 0; j < estacion->getNumIslas(); ++j) { 
+        Isla* isla = estacion->getIsla(j);
+        for (unsigned int k = 0; k < isla->getNumSurtidores(); ++k) {
+            PuntoSurtidor* surtidor = isla->getPuntoSurtidor(k); // Obtener el surtidor
+            if (surtidor->getEstado()) { // Verificar si el surtidor está activo
+                todosInactivos = false;
+                break;
+            }
+        }
     }
 
+    if (!todosInactivos) {
+        cout << "ERROR: Estacion de servicio con surtidores activos." << endl;
+        return;
+    }
+
+    // Eliminar la estación
+    delete estaciones_[indiceEstacion];
     for (unsigned int i = indiceEstacion; i < numEstaciones_ - 1; i++) {
         estaciones_[i] = estaciones_[i + 1];
     }
 
     numEstaciones_--;
-    cout << endl <<"Estacion eliminada exitosamente" << endl << endl;
+    cout << "Estacion eliminada exitosamente" << endl << endl;
 }
