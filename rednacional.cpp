@@ -1,55 +1,89 @@
 #include "rednacional.h"
 
-RedNacional::RedNacional(int maxEstaciones) : numEstaciones_(0), maxEstaciones_(maxEstaciones) {
-    estaciones_ = new EstacionServicio*[maxEstaciones];
+RedNacional::RedNacional() {
+
+    numEstaciones_ = 0;
+    tamArregloEstaciones = 6; // Inicializar tamArregloEstaciones con un valor predeterminado
+    estaciones_ = new EstacionServicio*[tamArregloEstaciones];
+
+    // Precios región NORTE
+    preciosCombustible_[0][0] = 4700; // Regular
+    preciosCombustible_[0][1] = 4900; // Premium
+    preciosCombustible_[0][2] = 5000; // EcoExtra
+
+    // Precios región CENTRO
+    preciosCombustible_[1][0] = 5000; // Regular
+    preciosCombustible_[1][1] = 5500; // Premium
+    preciosCombustible_[1][2] = 5800; // EcoExtra
+
+    // Precios región SUR
+    preciosCombustible_[2][0] = 4000; // Regular
+    preciosCombustible_[2][1] = 4500; // Premium
+    preciosCombustible_[2][2] = 4900; // EcoExtra
+}
+
+void RedNacional::setPreciosCombustible(int region, float precioRegular, float precioPremium, float precioEcoExtra) {
+    preciosCombustible_[region][0] = precioRegular;
+    preciosCombustible_[region][1] = precioPremium;
+    preciosCombustible_[region][2] = precioEcoExtra;
 }
 
 RedNacional::~RedNacional() {
-    for (int i = 0; i < numEstaciones_; ++i) {
-        delete estaciones_[i]; // Liberar cada estacion antes de liberar el arreglo
+    for (unsigned int i = 0; i < numEstaciones_; i++) {
+        delete estaciones_[i];  // Libera memoria de cada estación
     }
-    delete[] estaciones_;
+    delete[] estaciones_;  // Libera el arreglo de estaciones
 }
 
-void RedNacional::agregarEstacionServicio(EstacionServicio* estacion) {
-    if (numEstaciones_ < maxEstaciones_) { // Usar maxEstaciones_
-        estaciones_[numEstaciones_] = estacion;
-        numEstaciones_++;
-    } else {
-        cerr << "Error: No se pueden agregar mas estaciones. Limite alcanzado." << endl;
+void RedNacional::agregarEstacion(EstacionServicio* nuevaEstacion) {
+
+    // Verificar si es necesario aumentar la capacidad
+    if (numEstaciones_ >= tamArregloEstaciones) {
+        // Aumentar la capacidad al doble del tamaño actual
+        tamArregloEstaciones *= 2;
+
+        // Reasignar la memoria con el nuevo tamaño
+        estaciones_ = new EstacionServicio*[tamArregloEstaciones];
+
     }
+
+    // Agregar la nueva estación y aumentar el contador
+    estaciones_[numEstaciones_] = nuevaEstacion;
+    cout << endl << "Estacion creada exitosamente" << endl;
+
+    //Genera el codigo a la nueva estacion
+    cout << nuevaEstacion->getCodigo() << endl;
+
+    //Crea el tanque y asigna capacidad de los compartimientos aleatoriamente
+    nuevaEstacion->setCapacidadTanque();
+    numEstaciones_++;
 }
 
-void RedNacional::eliminarEstacionServicio(int indice) {
-    if (indice >= 0 && indice < numEstaciones_) {
-        delete estaciones_[indice];
-        for (int i = indice; i < numEstaciones_ - 1; i++) {
-            estaciones_[i] = estaciones_[i + 1];
+
+void RedNacional::eliminarEstacion(string codigoEstacion) {
+    int indiceEstacion = -1;
+    for (unsigned int i = 0; i < numEstaciones_; i++) {
+        if (estaciones_[i]->getCodigo() == codigoEstacion) {
+            indiceEstacion = i;
+            break;
         }
-        numEstaciones_--;
-    } else {
-        cerr << "Error: Indice invalido." << endl;
-    }
-}
-
-void RedNacional::calcularVentasTotales() {
-    if (numEstaciones_ > 0) { // Verificar si la red tiene Aestaciones
-        float ventasTotales = 0.0;
-        for (int i = 0; i < numEstaciones_; i++) {
-            ventasTotales += estaciones_[i]->getVentasTotales();
-        }
-        cout << "Ventas totales de la red: " << ventasTotales << endl;
-    } else {
-        cerr << "Error: La red no tiene estaciones." << endl;
-    }
     }
 
-void RedNacional::setPreciosCombustible(Region region, float precioRegular, float precioPremium, float precioEcoExtra) {
-    preciosCombustible_.setPrecio(region, "REGULAR", precioRegular);
-    preciosCombustible_.setPrecio(region, "PREMIUM", precioPremium);
-    preciosCombustible_.setPrecio(region, "ECOEXTRA", precioEcoExtra);
-}
+    if (indiceEstacion == -1) {
+        cout << "Estacion no encontrada" << endl << endl;
+        return;
+    }
 
-float RedNacional::getPrecioCombustible(TipoCombustible tipo, Region region) {
-    return preciosCombustible_.getPrecio(region, tipo);
+    // Verifica si el puntero no es nulo antes de eliminar
+    if (estaciones_[indiceEstacion] != nullptr) {
+        delete estaciones_[indiceEstacion];
+        estaciones_[indiceEstacion] = nullptr; // Evita accesos posteriores
+    }
+
+    for (unsigned int i = indiceEstacion; i < numEstaciones_ - 1; i++) {
+        estaciones_[i] = estaciones_[i + 1];
+    }
+
+    numEstaciones_--;
+    cout << endl <<"Estacion eliminada exitosamente" << endl << endl;
 }
