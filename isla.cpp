@@ -12,6 +12,14 @@ string Isla::getNombreIsla(){
     return nombre_;
 }
 
+PuntoSurtidor* Isla::getPuntoSurtidor(unsigned int indice) {
+    if (indice < numPuntosSurtidores) {
+        return puntosSurtidores_[indice]; // Retorna el surtidor si el índice es válido
+    }
+    return nullptr; // Retorna nullptr si el índice es inválido
+}
+
+
 // Método para agregar un surtidor dinámicamente
 void Isla::agregarPuntoSurtidor(PuntoSurtidor* nuevoSurtidor) {
     // Verifica si se ha alcanzado la capacidad máxima
