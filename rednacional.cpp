@@ -1,4 +1,5 @@
 #include "rednacional.h"
+#include "isla.h"
 
 RedNacional::RedNacional() {
 
@@ -37,7 +38,7 @@ RedNacional::~RedNacional() {
 
 void RedNacional::agregarEstacion(EstacionServicio* nuevaEstacion) {
 
-    // Verificar si es necesario aumentar la capacidad
+    // Verificar si es necesario aumentar la capacidad del arreglo de estaciones
     if (numEstaciones_ >= tamArregloEstaciones) {
         // Aumentar la capacidad al doble del tamaño actual
         tamArregloEstaciones *= 2;
@@ -55,8 +56,8 @@ void RedNacional::agregarEstacion(EstacionServicio* nuevaEstacion) {
     cout << nuevaEstacion->getCodigo() << endl;
 
     //Crea el tanque y asigna capacidad de los compartimientos aleatoriamente
-    nuevaEstacion->setCapacidadTanque();
     numEstaciones_++;
+
 }
 
 
