@@ -1,34 +1,28 @@
-#ifndef PUNTOSURTIDOR_H
-#define PUNTOSURTIDOR_H
+#ifndef ISLA_H
+#define ISLA_H
 
-#include <iostream>
 #include <string>
-#include "transaccion.h"
+#include "puntosurtidor.h"
 
 using namespace std;
 
-class PuntoSurtidor {
+class Isla {
 private:
-    bool activado_;
-    static unsigned int contadorCodigo;
-    string codigo_;
-    string modelo_;
-    Transaccion** transacciones_;
-    unsigned int numTransacciones_; //Para establecer el tamaño del arreglo
+    string nombre_;
+    unsigned int numPuntosSurtidores;
+    unsigned int maxSurtidores;
+    PuntoSurtidor** puntosSurtidores_;
 
 public:
-    PuntoSurtidor(string modelo, bool activado, unsigned int numTransacciones_);
-    string getCodigo() const;
-    void setCodigo(const string& codigo);
-    string getModelo();
-    bool setEstado();
-    bool getEstado();
-    void realizarVenta(float precioCombustible);
-    void registrarVenta(Transaccion* venta);
+    Isla(string nombre, unsigned int capacidadMaxima = 2);
+    ~Isla();
+    string getNombreIsla();
+    void listarPuntosSurtidores();
+    void agregarPuntoSurtidor(PuntoSurtidor* nuevoSurtidor);  // Método para agregar surtidores
+    unsigned int getNumSurtidores();
 
-    void mostrarHistorico();
-
-    ~PuntoSurtidor();
+    // // Método estático temporal que devuelve una cantidad de combustible disponible para pruebas
+    static float getCantidadDisponible(const string& tipoCombustible);
 };
 
-#endif // PUNTOSURTIDOR_H
+#endif // ISLA_H
