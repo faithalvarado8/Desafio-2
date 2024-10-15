@@ -58,6 +58,8 @@ public:
     void calcularVentasTotales();
     bool verificarFugas();
 
+    unsigned int getNumIslas() const;  // Método para obtener el número de islas
+    Isla* getIsla(unsigned int index) const;  // Método para obtener una isla por índice
 };
 
 #endif // ESTACIONSERVICIO_H
