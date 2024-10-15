@@ -16,6 +16,12 @@ public:
     Compartimiento& getRegular();
     Compartimiento& getPremium();
     Compartimiento& getEcoExtra();
+
+    //Setters
+    Compartimiento& setRegular();
+    Compartimiento& setPremium();
+    Compartimiento& setEcoExtra();
+
 };
 
 #endif // TANQUE_H
