@@ -9,6 +9,7 @@ private:
     unsigned int numEstaciones_;
     unsigned int tamArregloEstaciones;
     float preciosCombustible_[3][3];
+
 public:
     RedNacional();
     ~RedNacional();
