@@ -7,9 +7,6 @@
 
 using namespace std;
 
-
-
-
 void gestionRed() {
     RedNacional* rednacional = new RedNacional(); // Declarar la variable rednacional
 
@@ -278,3 +275,4 @@ int main() {
 
 //     return 0; // Fin del programa
 // }
+
