@@ -21,8 +21,8 @@ public:
     string getCodigo() const;
     void setCodigo(const string& codigo);
     string getModelo();
-    bool setEstado();
-    bool getEstado();
+    bool setEstado(bool estado);
+    bool getEstado() const;
     void realizarVenta(float precioCombustible);
     void registrarVenta(Transaccion* venta);
 
