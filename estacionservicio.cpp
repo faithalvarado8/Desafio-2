@@ -57,7 +57,7 @@ void EstacionServicio::setCapacidadTanque() {
     cout << "Capacidades asignadas(litros) - Regular: " << tanque_->getRegular().getCapacidad()
          << ", Premium: " << tanque_->getPremium().getCapacidad()
          << ", EcoExtra: " << tanque_->getEcoExtra().getCapacidad() << endl;
-    
+
     tanque_->getRegular().setCantidadActual(capacidadRegular);
     tanque_->getPremium().setCantidadActual(capacidadPremium);
     tanque_->getEcoExtra().setCantidadActual(capacidadEcoExtra);
@@ -144,24 +144,32 @@ void EstacionServicio::agregarPuntoSurtidor(string& modelo) {
 }
 
 void EstacionServicio::eliminarPuntoSurtidor(const string& codigo) {
-    bool encontrado = false;
     for (unsigned int i = 0; i < numPuntosSurtidores_; i++) {
         if (puntosSurtidores_[i]->getCodigo() == codigo) {
+            // Verificar si el surtidor está activado
+            if (puntosSurtidores_[i]->getEstado()) {
+                cout << "El surtidor con el código " << codigo << " debe estar desactivado para ser eliminado." << endl;
+                return; // Salir del método si está activado
+            }
+
+            // Llamar al método de la isla para eliminar la referencia
+            for (unsigned int j = 0; j < numIslas_; j++) {
+                Isla* isla = islas_[j];
+                isla->eliminarPuntoSurtidor(codigo); // Solo eliminar referencia
+            }
+
+            // Liberar memoria y eliminar del arreglo general
             delete puntosSurtidores_[i];
             for (unsigned int j = i; j < numPuntosSurtidores_ - 1; j++) {
                 puntosSurtidores_[j] = puntosSurtidores_[j + 1];
             }
             numPuntosSurtidores_--;
-            cout << "Surtidor eliminado correctamente." << endl<< endl;
-            encontrado = true;
-            break;
+            cout << "Surtidor eliminado correctamente." << endl << endl;
+            return; // Salir del método
         }
     }
-    if (!encontrado) {
-        cout << "Surtidor no encontrado." << endl<< endl;
-    }
+    cout << "Surtidor no encontrado." << endl << endl;
 }
-
 void EstacionServicio::activarPuntoSurtidor(const string& codigo) {
     for (unsigned int i = 0; i < numPuntosSurtidores_; i++) {
         if (puntosSurtidores_[i]->getCodigo() == codigo) {
