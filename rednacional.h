@@ -1,27 +1,69 @@
-#ifndef REDNACIONAL_H
-#define REDNACIONAL_H
+#ifndef ESTACIONSERVICIO_H
+#define ESTACIONSERVICIO_H
 
-#include"estacionservicio.h"
+#include "tanque.h"
+#include "isla.h"
+#include "puntosurtidor.h"
+#include "transaccion.h"
 
-class RedNacional{
+#include<string>
+using namespace std;
+class RedNacional;
+
+class EstacionServicio{
 private:
-    EstacionServicio** estaciones_;
-    unsigned int numEstaciones_;
-    unsigned int tamArregloEstaciones;
-    float preciosCombustible_[3][3];
+    string nombre_;
+    static unsigned int contadorCodigo;
+    string codigo_;
+    string gerente_;
+    string region_;
+    float latitud_;
+    float longitud_;
+    Tanque* tanque_;
+    Isla** islas_; // Arreglo dinámico de islas
+    unsigned int numIslas_;        // Número actual de islas en la estación
+    const unsigned int maxIslas_ = 3; // Capacidad máxima de islas
+    unsigned int numPuntosSurtidores_ = 0;
+    unsigned int maxPuntosSurtidores_= 12;
+    PuntoSurtidor** puntosSurtidores_;
+    Transaccion** transacciones_;
+
+    string setCoordenadasGPS(); //Genera aleatoriamente coordenadas
+
 
 public:
-    RedNacional();
-    ~RedNacional();
-    void agregarEstacion(EstacionServicio* nuevaEstacion);
-    void eliminarEstacion(string codigo);
+    EstacionServicio();
+    EstacionServicio(string& nombre, string& gerente, string& region, unsigned int maxPuntosSurtidores);
+    ~EstacionServicio();
+
+    string getNombre();
+    void setNombre(const string& nombre);
+    string getCodigo() const;
+    void setCodigo(const string& codigo);
+    string getGerente();
+    void setGerente(const string& gerente);
+    string getRegion();
+    void setRegion(const string& region);
+    string getCoordenadas();  //Retorna las coordenadas en formato string
+
+    void agregarIsla(Isla* nuevaIsla);
+    void eliminarIsla(unsigned int indice);
+
+    void agregarPuntoSurtidor(string& modelo);
+    void eliminarPuntoSurtidor(const string& codigo);
+    void activarPuntoSurtidor(const string& codigo);
+    void desactivarPuntoSurtidor(const string& codigo);
+
+    void setCapacidadTanque();
+
+    void simularVenta(string& region, float (&total)[3]);
+    void consultarTransaccionesPuntoSurtidor(const string& codigo);
+    void reportarLitrosVendidos();
     void calcularVentasTotales();
-    void setPreciosCombustible(int region, float precioRegular, float precioPremium, float precioEcoExtra);
-    float getPreciosCombustible(int region, int tipoCombustible);
+    bool verificarFugas();
 
-    unsigned int getNumEstaciones() const; // Método para obtener el número de estaciones
-    EstacionServicio* getEstacion(unsigned int index) const; // Método para obtener una estación por su índice
-
+    unsigned int getNumIslas() const;  // Método para obtener el número de islas
+    Isla* getIsla(unsigned int index) const;  // Método para obtener una isla por índice
 };
 
-#endif // REDNACIONAL_H
+#endif // ESTACIONSERVICIO_H
