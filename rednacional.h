@@ -18,6 +18,10 @@ public:
     void calcularVentasTotales();
     void setPreciosCombustible(int region, float precioRegular, float precioPremium, float precioEcoExtra);
     float getPreciosCombustible(int region, int tipoCombustible);
+
+    unsigned int getNumEstaciones() const;
+    EstacionServicio* getEstacion(unsigned int index) const; // Método para obtener una estación por su índice
+
 };
 
 #endif // REDNACIONAL_H
