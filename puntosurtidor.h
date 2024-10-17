@@ -28,6 +28,9 @@ public:
 
     void mostrarHistorico(bool mostrarUltima);
 
+    unsigned int getNumTransacciones() const; // Metodo para obtener el numero de transacciones
+    Transaccion* getTransaccion(unsigned int index) const; // Método para obtener una transaccion por indice
+
     ~PuntoSurtidor();
 };
 
