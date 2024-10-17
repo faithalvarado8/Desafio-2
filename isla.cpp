@@ -72,26 +72,21 @@ void Isla::listarPuntosSurtidores() {
 
 // Metodo para eliminar un surtidor de la isla
 void Isla::eliminarPuntoSurtidor(const string& codigo) {
-    bool encontrado = false;
     for (unsigned int i = 0; i < numPuntosSurtidores; ++i) {
-        if (puntosSurtidores_[i]->getCodigo() == codigo) {
-            delete puntosSurtidores_[i];  // Liberar memoria del surtidor
-
-            // Mover los elementos restantes hacia la izquierda
+        if (puntosSurtidores_[i] != nullptr && puntosSurtidores_[i]->getCodigo() == codigo) {
+            // Solo eliminar la referencia
             for (unsigned int j = i; j < numPuntosSurtidores - 1; ++j) {
                 puntosSurtidores_[j] = puntosSurtidores_[j + 1];
             }
-
             numPuntosSurtidores--;
-            cout << "Surtidor eliminado correctamente." << endl;
-            encontrado = true;
-            break;
+            puntosSurtidores_[numPuntosSurtidores] = nullptr; // Limpiar el puntero
+            cout << "Surtidor eliminado de la isla correctamente." << endl;
+            return;
         }
     }
-    if (!encontrado) {
-        cout << "Surtidor con codigo " << codigo << " no encontrado." << endl;
-    }
+    cout << "Surtidor no encontrado en la isla." << endl;
 }
+
 
 // Metodo para obtener el numero actual de surtidores
 unsigned int Isla::getNumSurtidores() const {
