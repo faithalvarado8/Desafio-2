@@ -20,10 +20,10 @@ private:
     float longitud_;
     Tanque* tanque_;
     Isla** islas_; // Arreglo dinámico de islas
-    unsigned int numIslas_; // Número actual de islas en la estación
+    unsigned int numIslas_;        // Número actual de islas en la estación
     const unsigned int maxIslas_ = 3; // Capacidad máxima de islas
     unsigned int numPuntosSurtidores_ = 0;
-    unsigned int maxPuntosSurtidores_;
+    unsigned int maxPuntosSurtidores_=12;
     PuntoSurtidor** puntosSurtidores_;
     Transaccion** transacciones_;
 
@@ -33,7 +33,6 @@ private:
 public:
     EstacionServicio();
     EstacionServicio(string& nombre, string& gerente, string& region, unsigned int maxPuntosSurtidores);
-    // EstacionServicio(string& modelo);
     ~EstacionServicio();
 
     string getNombre();
@@ -44,7 +43,7 @@ public:
     void setGerente(const string& gerente);
     string getRegion();
     void setRegion(const string& region);
-    string getCoordenadas();
+    string getCoordenadas();  //Retorna las coordenadas en formato string
 
     void agregarIsla(Isla* nuevaIsla);
     void eliminarIsla(unsigned int indice);
@@ -62,7 +61,7 @@ public:
     void calcularVentasTotales();
     bool verificarFugas();
 
-    unsigned int getNumIslas() const;
+    unsigned int getNumIslas() const;  // Método para obtener el número de islas
     Isla* getIsla(unsigned int index) const;  // Método para obtener una isla por índice
 };
 
