@@ -8,6 +8,7 @@
 
 #include<string>
 using namespace std;
+class RedNacional;
 
 class EstacionServicio{
 private:
@@ -55,7 +56,7 @@ public:
 
     void setCapacidadTanque();
 
-    void simularVenta();
+    void simularVenta(string& region, float (&total)[3]);
     void consultarTransaccionesPuntoSurtidor(const string& codigo);
     void reportarLitrosVendidos();
     void calcularVentasTotales();
