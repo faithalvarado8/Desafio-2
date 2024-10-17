@@ -26,15 +26,17 @@ PuntoSurtidor* Isla::getPuntoSurtidor(unsigned int indice) {
 // Método para agregar un surtidor dinámicamente
 void Isla::agregarPuntoSurtidor(PuntoSurtidor* nuevoSurtidor) {
     if (numPuntosSurtidores == maxSurtidores) {
+        // Duplica el tamaño del arreglo si ya esta lleno (hasta un maximo de 4)
         unsigned int nuevoMax = maxSurtidores * 2;
         if (nuevoMax > 4) {
-            cout << "Capacidad máxima de surtidores alcanzada." << endl;
+            cout << "Capacidad maxima de surtidores alcanzada." << endl;
             return;
         }
 
         // Crear un nuevo arreglo con mayor capacidad
         PuntoSurtidor** nuevoArreglo = new PuntoSurtidor*[nuevoMax];
 
+        // Copiar los surtidores existentes al nuevo arreglo
         for (unsigned int i = 0; i < numPuntosSurtidores; ++i) {
             nuevoArreglo[i] = puntosSurtidores_[i];
         }
@@ -42,6 +44,7 @@ void Isla::agregarPuntoSurtidor(PuntoSurtidor* nuevoSurtidor) {
         // Liberar el arreglo anterior
         delete[] puntosSurtidores_;
 
+        // Asignar el nuevo arreglo y actualizar la capacidad máxima
         puntosSurtidores_ = nuevoArreglo;
         maxSurtidores = nuevoMax;
     }
@@ -49,10 +52,10 @@ void Isla::agregarPuntoSurtidor(PuntoSurtidor* nuevoSurtidor) {
     // Agregar el nuevo surtidor
     puntosSurtidores_[numPuntosSurtidores++] = nuevoSurtidor;
     cout << "Surtidor agregado a la isla correctamente." << endl;
-    cout << "Código: " << nuevoSurtidor->getCodigo() << endl;
+    cout << "Codigo: " << nuevoSurtidor->getCodigo() << endl;
 }
 
-// Método para listar los surtidores de la isla
+// Metodo para listar los surtidores de la isla
 void Isla::listarPuntosSurtidores() {
     if (numPuntosSurtidores == 0) {
         cout << "No hay puntos surtidores en esta isla." << endl;
@@ -61,13 +64,13 @@ void Isla::listarPuntosSurtidores() {
 
     cout << "Puntos Surtidores en la Isla " << nombre_ << ":\n";
     for (unsigned int i = 0; i < numPuntosSurtidores; ++i) {
-        cout << "Surtidor " << i + 1 << " - Código: "
+        cout << "Surtidor " << i + 1 << " - Codigo: "
              << puntosSurtidores_[i]->getCodigo()
              << ", Modelo: " << puntosSurtidores_[i]->getModelo() << endl;
     }
 }
 
-// Método para eliminar un surtidor de la isla
+// Metodo para eliminar un surtidor de la isla
 void Isla::eliminarPuntoSurtidor(const string& codigo) {
     bool encontrado = false;
     for (unsigned int i = 0; i < numPuntosSurtidores; ++i) {
@@ -86,18 +89,18 @@ void Isla::eliminarPuntoSurtidor(const string& codigo) {
         }
     }
     if (!encontrado) {
-        cout << "Surtidor con código " << codigo << " no encontrado." << endl;
+        cout << "Surtidor con codigo " << codigo << " no encontrado." << endl;
     }
 }
 
-// Método para obtener el número actual de surtidores
+// Metodo para obtener el numero actual de surtidores
 unsigned int Isla::getNumSurtidores() const {
     return numPuntosSurtidores;
 }
 
-// Método para obtener la cantidad disponible de combustible
+// Metodo para obtener la cantidad disponible de combustible
 float Isla::getCantidadDisponible(const string& tipoCombustible) {
-    // Implementación temporal
+    // Implementacion temporal
     if (tipoCombustible == "REGULAR") {
         return 100.0;
     } else if (tipoCombustible == "PREMIUM") {
