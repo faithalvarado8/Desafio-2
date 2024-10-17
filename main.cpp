@@ -11,7 +11,7 @@ void gestionRed(RedNacional* rednacional) {
     int opcion;
     string nombre, gerente, region, codigo;
     unsigned int maxPuntosSurtidores;
-    EstacionServicio* nuevaEstacion; // Declarar la variable nuevaEstacion aquí
+    EstacionServicio* nuevaEstacion;
 
     do {
         cout << "Gestion de la red" << endl;
@@ -101,6 +101,7 @@ void gestionRed(RedNacional* rednacional) {
 }
 
 void gestionEstaciones(RedNacional* rednacional) {
+
     if (rednacional->getNumEstaciones() == 0) {
         cout << "No hay estaciones en la red." << endl;
         return;
@@ -130,11 +131,12 @@ void gestionEstaciones(RedNacional* rednacional) {
         cout << "-------------" << endl;
         cout << "1. Agregar/eliminar un surtidor a una E/S" << endl;
         cout << "2. Activar/desactivar un surtidor de una E/S" << endl;
-        cout << "3. Consultar el historico de transacciones de cada surtidor de la E/S" << endl;
-        cout << "4. Reportar la cantidad de litros vendida segun cada categoria de combustible" << endl;
-        cout << "5. Simular una venta de combustible" << endl;
-        cout << "6. Asignar la capacidad del tanque de suministro" << endl;
-        cout << "7. Volver al menu principal" << endl;
+        cout << "3. Eliminar un surtidor de una E/S" << endl;
+        cout << "4. Consultar el historico de transacciones de cada surtidor de la E/S" << endl;
+        cout << "5. Reportar la cantidad de litros vendida segun cada categoria de combustible" << endl;
+        cout << "6. Simular una venta de combustible" << endl;
+        cout << "7. Asignar la capacidad del tanque de suministro" << endl;
+        cout << "8. Volver al menu principal" << endl;
         cout << "Ingrese una opcion: ";
         cin >> opcion;
         cout << endl << endl;
@@ -171,30 +173,39 @@ void gestionEstaciones(RedNacional* rednacional) {
             }
             break;
         }
-        case 3:
+        case 3: {
+            string codigoSurtidor;
+            cout << "Ingrese el código del surtidor a eliminar: ";
+            cin >> codigoSurtidor;
+
+            //Llamar al método eliminarPuntoSurtidor de la estación seleccionada
+            estacionSeleccionada->eliminarPuntoSurtidor(codigoSurtidor);
+            break;
+            }
+        case 4:
             // Consultar el histOrico de transacciones de cada surtidor de la E/S
             break;
-        case 4:
+        case 5:
             // Reportar la cantidad de litros vendida segun cada categoria de combustible
             cout<< "Regular: " << total[0]<<endl<<"Premium: "<<total[1]<<endl<<"EcoExtra: "<<total[2]<<endl;
             break;
-        case 5:
+        case 6:
             // Simular una venta de combustible
             region=estacionSeleccionada->getRegion();
             estacionSeleccionada->simularVenta(region, total);
             break;
-        case 6:
+        case 7:
             // Asignar la capacidad del tanque de suministro
-            estacionSeleccionada->setCapacidadTanque();
+            //estacionSeleccionada->setCapacidadTanque();
 
             break;
-        case 7:
+        case 8:
             cout << endl << "Volviendo al menu principal..." << endl;
             break;
         default:
             cout << "Opcion invalida. Intente nuevamente." << endl;
         }
-    } while (opcion != 7);
+    } while (opcion != 8);
 }
 
 
@@ -213,7 +224,7 @@ int main() {
         cout << "1. Gestion de la red" << endl;
         cout << "2. Gestion de estaciones de servicio" << endl;
         cout << "3. Sistema nacional de verificacion de fugas" << endl;
-        cout << "4. Simulacion de ventas" << endl;
+        //cout << "4. Simulacion de ventas" << endl;
         cout << "5. Salir" << endl;
         cout << "Ingrese una opcion: ";
         cin >> opcion;
