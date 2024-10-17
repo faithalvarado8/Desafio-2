@@ -18,12 +18,13 @@ string PuntoSurtidor::getModelo(){
     return modelo_;
 }
 
-bool PuntoSurtidor::setEstado(){
-    return this->activado_;
+bool PuntoSurtidor::setEstado(bool estado) {
+    activado_ = estado; // Cambia el estado del surtidor
+    return activado_; // Retorna el nuevo estado
 }
 
-bool PuntoSurtidor::getEstado(){
-    return this->activado_;
+bool PuntoSurtidor::getEstado() const {
+    return activado_; // Retorna el estado actual del surtidor
 }
 
 void PuntoSurtidor::realizarVenta(float precioCombustible) {
