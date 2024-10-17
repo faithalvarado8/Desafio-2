@@ -10,8 +10,10 @@ using namespace std;
 void gestionRed(RedNacional* rednacional) {
     int opcion;
     string nombre, gerente, region, codigo;
-    unsigned int maxPuntosSurtidores;
+    unsigned int maxPuntosSurtidores=12;
     EstacionServicio* nuevaEstacion;
+    unsigned int numEstaciones;
+    float totalVentas;
 
     do {
         cout << "Gestion de la red" << endl;
@@ -34,8 +36,6 @@ void gestionRed(RedNacional* rednacional) {
             cin >> gerente;
             cout << "Ingrese la region: ";
             cin >> region;
-            cout << "Ingrese el numero maximo de puntos surtidores: ";
-            cin >> maxPuntosSurtidores;
             cout << endl << endl;
 
             // Crear una nueva instancia de EstacionServicio con la información ingresada
@@ -51,6 +51,48 @@ void gestionRed(RedNacional* rednacional) {
             break;
         case 3:
             // Calcular el monto total de las ventas en cada E/S del país
+            numEstaciones = rednacional->getNumEstaciones();
+            if (numEstaciones == 0) {
+                cout << "No hay estaciones en la red." << endl;
+                return;
+            }
+            for (unsigned int i = 0; i < numEstaciones; ++i) {
+                EstacionServicio* estacion = rednacional->getEstacion(i);
+                totalVentas = 0.0;
+                float ventasPorTipo[3] = {0.0, 0.0, 0.0};
+                cout<< "Calculando las ventas de la estacion: "<<estacion->getCodigo()<<endl;
+                // Itera sobre cada isla en la estacion
+                for (unsigned int i = 0; i < estacion->getNumIslas(); ++i) {
+                    Isla* islaEst = estacion->getIsla(i);
+
+                    // Itera sobre cada punto surtidor en la isla
+                    for (unsigned int j = 0; j < islaEst->getNumSurtidores(); ++j) {
+                        PuntoSurtidor* surtidor = islaEst->getPuntoSurtidor(j);
+
+                        // Recorrer las transacciones del surtidor para sumar las ventas
+                        for (unsigned int k = 0; k < surtidor->getNumTransacciones(); ++k) {
+                            Transaccion* transaccion = surtidor->getTransaccion(k);
+
+                            // Obtener el monto de la transacción y sumarlo al total
+                            float monto = transaccion->getMonto();
+                            totalVentas += monto;
+                            // Clasificar la venta por tipo de combustible
+                            string tipo = transaccion->getTipoCombustible();
+                            if (tipo == "REGULAR") {
+                                ventasPorTipo[0] += monto;
+                            } else if (tipo == "PREMIUM") {
+                                ventasPorTipo[1] += monto;
+                            } else if (tipo == "ECOEXTRA") {
+                                ventasPorTipo[2] += monto;
+                            }
+                        }
+                    }
+                }
+                if (totalVentas==0){
+                    cout<< "No se han realizado ventas en esta estacion"<<endl;
+                }
+            }
+
             break;
         case 4:
             float precioRegularN,precioPremiumN, precioEcoExtraN, precioRegularC,precioPremiumC, precioEcoExtraC,precioRegularS,precioPremiumS, precioEcoExtraS;
@@ -97,6 +139,7 @@ void gestionRed(RedNacional* rednacional) {
             cout << "Opcion invalida. Intente nuevamente." << endl;
             break;
         }
+
     } while (opcion != 5);
 }
 
@@ -125,13 +168,14 @@ void gestionEstaciones(RedNacional* rednacional) {
     string region;
     int opcion;
     float total[3]={0.0, 0.0, 0.0};
+    int contSurtidores=0;
 
     do {
         cout << "Gestion de estaciones de servicio" << endl;
         cout << "-------------" << endl;
-        cout << "1. Agregar/eliminar un surtidor a una E/S" << endl;
-        cout << "2. Activar/desactivar un surtidor de una E/S" << endl;
-        cout << "3. Eliminar un surtidor de una E/S" << endl;
+        cout << "1. Agregar un surtidor a una E/S" << endl;
+        cout << "2. Eliminar un surtidor de una E/S" << endl;
+        cout << "3. Activar/desactivar un surtidor de una E/S" << endl;
         cout << "4. Consultar el historico de transacciones de cada surtidor de la E/S" << endl;
         cout << "5. Reportar la cantidad de litros vendida segun cada categoria de combustible" << endl;
         cout << "6. Simular una venta de combustible" << endl;
@@ -151,7 +195,18 @@ void gestionEstaciones(RedNacional* rednacional) {
             estacionSeleccionada->agregarPuntoSurtidor(modeloSurtidor);
 
             break;
+
         case 2: {
+            string codigoSurtidor;
+            cout << "Ingrese el codigo del surtidor a eliminar: ";
+            cin >> codigoSurtidor;
+
+            //Llamar al metodo eliminarPuntoSurtidor de la estación seleccionada
+            estacionSeleccionada->eliminarPuntoSurtidor(codigoSurtidor);
+            break;
+        }
+
+        case 3: {
             string codigoSurtidor;
             char accion;
 
@@ -173,17 +228,35 @@ void gestionEstaciones(RedNacional* rednacional) {
             }
             break;
         }
-        case 3: {
-            string codigoSurtidor;
-            cout << "Ingrese el código del surtidor a eliminar: ";
-            cin >> codigoSurtidor;
 
-            //Llamar al método eliminarPuntoSurtidor de la estación seleccionada
-            estacionSeleccionada->eliminarPuntoSurtidor(codigoSurtidor);
-            break;
-            }
         case 4:
-            // Consultar el histOrico de transacciones de cada surtidor de la E/S
+            if (estacionSeleccionada->getNumIslas() == 0) {
+                cout << "No hay islas en la estación." << endl;
+                return;
+            }
+            // Itera sobre cada isla en la estación
+            for (unsigned int i = 0; i < estacionSeleccionada->getNumIslas(); ++i) {
+                Isla* isla = estacionSeleccionada->getIsla(i);
+                contSurtidores=0;
+                if (isla->getNumSurtidores() == 0) {
+                    cout << "No hay surtidores en esta isla." << endl;
+                    return;
+                }
+                // Itera sobre cada punto surtidor en la isla
+                for (unsigned int j = 0; j < isla->getNumSurtidores(); ++j) {
+                    PuntoSurtidor* surtidor = isla->getPuntoSurtidor(j);
+                    // Verifica si el surtidor esta activo
+                    if (surtidor->getEstado()) {
+                        contSurtidores++;
+                        cout << "Historial de transacciones en el punto surtidor "<< surtidor->getCodigo()<<endl ;
+                        surtidor->mostrarHistorico(false);
+                    }
+                if (contSurtidores==0){
+                    cout << "No hay surtidores activos en esta isla"<<endl ;
+                }
+                }
+            }
+
             break;
         case 5:
             // Reportar la cantidad de litros vendida segun cada categoria de combustible
@@ -195,8 +268,7 @@ void gestionEstaciones(RedNacional* rednacional) {
             estacionSeleccionada->simularVenta(region, total);
             break;
         case 7:
-            // Asignar la capacidad del tanque de suministro
-            //estacionSeleccionada->setCapacidadTanque();
+            estacionSeleccionada->setCapacidadTanque();
 
             break;
         case 8:
@@ -224,8 +296,7 @@ int main() {
         cout << "1. Gestion de la red" << endl;
         cout << "2. Gestion de estaciones de servicio" << endl;
         cout << "3. Sistema nacional de verificacion de fugas" << endl;
-        //cout << "4. Simulacion de ventas" << endl;
-        cout << "5. Salir" << endl;
+        cout << "4. Salir" << endl;
         cout << "Ingrese una opcion: ";
         cin >> opcion;
         cout << endl << endl;
@@ -241,15 +312,14 @@ int main() {
             //sistemaVerificacionFugas();
             break;
         case 4:
-            //simulacionVentas();
-            break;
-        case 5:
             cout << "Saliendo..." << endl;
             break;
         default:
             cout << "Opcion invalida. Intente nuevamente." << endl;
         }
-    } while (opcion != 5);
+    } while (opcion != 4);
+
+    delete rednacional;
 
     return 0;
 }
