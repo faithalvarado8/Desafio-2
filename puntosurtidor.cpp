@@ -1,10 +1,12 @@
 #include "puntosurtidor.h"
 #include "isla.h"
+#include "rednacional.h"
+#include "estacionservicio.h"
 
 unsigned int PuntoSurtidor::contadorCodigo = 100;
 
 PuntoSurtidor::PuntoSurtidor(string modelo, bool activado, unsigned int numTransacciones_):
-    modelo_(modelo), activado_(activado), numTransacciones_(numTransacciones_) {
+    activado_(activado), modelo_(modelo), numTransacciones_(numTransacciones_) {
     transacciones_ = new Transaccion*[10];
 
     codigo_ = "PS-" + to_string(contadorCodigo++);
@@ -27,28 +29,41 @@ bool PuntoSurtidor::getEstado() const {
     return activado_; // Retorna el estado actual del surtidor
 }
 
-void PuntoSurtidor::realizarVenta(float precioCombustible) {
+void PuntoSurtidor::realizarVenta(string& region, float (&total)[3]) {
 
     if (activado_) {
 
-        char categoriaCombustible;
+        int categoriaCombustible;
         string tipoCombustible;
         float cantidadCombustible;
         char categoriaPago;
         string formaPago;
         string docCliente;
         float monto;
+        float precioCombustible;
+        int numregion=0;
+
+        if (region=="NORTE"){
+            numregion=0;
+        }
+        else if (region=="CENTRO"){
+            numregion=1;
+        }
+        else if (region=="SUR"){
+            numregion=2;
+        }
 
         cout << "Tipo de combustible: REGULAR(1), PREMIUM(2), ECOEXTRA(3): ";
         cin >> categoriaCombustible;
-        if (categoriaCombustible == '1') {
+        if (categoriaCombustible == 1) {
             tipoCombustible = "REGULAR";
         }
-        else if (categoriaCombustible == '2') {
+        else if (categoriaCombustible == 2) {
             tipoCombustible = "PREMIUM";
         }
-        else if (categoriaCombustible == '3') {
+        else if (categoriaCombustible == 3) {
             tipoCombustible = "ECOEXTRA";
+
         } else {
             cout << "Opcion no valida. Por favor, ingrese 1, 2 o 3." << endl;
         }
@@ -81,6 +96,19 @@ void PuntoSurtidor::realizarVenta(float precioCombustible) {
             cout << "Se expedira y cobrara la cantidad disponible." << endl;
         }
 
+        if (categoriaCombustible == 1) {
+            total[0]+=cantidadCombustible;
+        }
+        else if (categoriaCombustible == 2) {
+            total[1]+=cantidadCombustible;
+        }
+        else if (categoriaCombustible == 3) {
+            total[2]+=cantidadCombustible;
+        }
+
+        RedNacional* precios = new RedNacional();
+        precioCombustible=precios->getPreciosCombustible(numregion, categoriaCombustible-1);
+
         monto = cantidadCombustible * precioCombustible;
 
         // Crear nueva transaccion
@@ -93,11 +121,13 @@ void PuntoSurtidor::realizarVenta(float precioCombustible) {
         numTransacciones_++;
 
         cout << "Venta realizada con exito." << endl;
+        delete precios;
 
         return;
 
     } else {
         cout << "El surtidor no esta activo." << endl;
+        return;
     }
 }
 
@@ -121,7 +151,7 @@ void PuntoSurtidor::registrarVenta(Transaccion* transaccion) {
     this->numTransacciones_++; // Incrementar el contador de transacciones
 }
 
-void PuntoSurtidor::mostrarHistorico() {
+void PuntoSurtidor::mostrarHistorico(bool mostrarUltima) {
     cout << "Historial de transacciones:\n";
 
     if (numTransacciones_ == 0) {
@@ -129,8 +159,13 @@ void PuntoSurtidor::mostrarHistorico() {
         return;
     }
 
-    for (unsigned int i = 0; i < numTransacciones_; ++i) {
-        transacciones_[i]->mostrarTransaccion(); //Imprimir el recibo de la transaccion
+    if (mostrarUltima){
+        transacciones_[numTransacciones_-1]->mostrarTransaccion();
+    }
+    else{
+        for (unsigned int i = 0; i < numTransacciones_; ++i) {
+            transacciones_[i]->mostrarTransaccion(); //Imprimir el recibo de la transaccion
+        }
     }
 }
 
