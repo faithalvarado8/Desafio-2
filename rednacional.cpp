@@ -6,17 +6,17 @@ RedNacional::RedNacional() {
     tamArregloEstaciones = 6; // Inicializar tamArregloEstaciones con un valor predeterminado
     estaciones_ = new EstacionServicio*[tamArregloEstaciones];
 
-    // Precios región NORTE
+    // Precios region NORTE
     preciosCombustible_[0][0] = 4700; // Regular
     preciosCombustible_[0][1] = 4900; // Premium
     preciosCombustible_[0][2] = 5000; // EcoExtra
 
-    // Precios región CENTRO
+    // Precios region CENTRO
     preciosCombustible_[1][0] = 5000; // Regular
     preciosCombustible_[1][1] = 5500; // Premium
     preciosCombustible_[1][2] = 5800; // EcoExtra
 
-    // Precios región SUR
+    // Precios region SUR
     preciosCombustible_[2][0] = 4000; // Regular
     preciosCombustible_[2][1] = 4500; // Premium
     preciosCombustible_[2][2] = 4900; // EcoExtra
