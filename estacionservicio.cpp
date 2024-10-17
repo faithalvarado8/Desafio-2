@@ -57,14 +57,10 @@ void EstacionServicio::setCapacidadTanque() {
     cout << "Capacidades asignadas(litros) - Regular: " << tanque_->getRegular().getCapacidad()
          << ", Premium: " << tanque_->getPremium().getCapacidad()
          << ", EcoExtra: " << tanque_->getEcoExtra().getCapacidad() << endl;
-
-    tanque_->getRegular().setCantidadActual(0.95 * capacidadRegular);
-    tanque_->getPremium().setCantidadActual(0.95 * capacidadPremium);
-    tanque_->getEcoExtra().setCantidadActual(0.95 * capacidadEcoExtra);
-
-    cout << "Cantidades suministradas(litros) - Regular: " << tanque_->getRegular().getCantidadActual()
-         << ", Premium: " << tanque_->getPremium().getCantidadActual()
-         << ", EcoExtra: " << tanque_->getEcoExtra().getCantidadActual() << endl << endl << endl;
+    
+    tanque_->getRegular().setCantidadActual(capacidadRegular);
+    tanque_->getPremium().setCantidadActual(capacidadPremium);
+    tanque_->getEcoExtra().setCantidadActual(capacidadEcoExtra);
 }
 
 string EstacionServicio::setCoordenadasGPS() {
