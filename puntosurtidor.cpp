@@ -50,7 +50,7 @@ void PuntoSurtidor::realizarVenta(float precioCombustible) {
         else if (categoriaCombustible == '3') {
             tipoCombustible = "ECOEXTRA";
         } else {
-            cout << "Opción no válida. Por favor, ingrese 1, 2 o 3." << endl;
+            cout << "Opcion no valida. Por favor, ingrese 1, 2 o 3." << endl;
         }
 
         cout << "Ingrese la cantidad de combustible a expender (litros): ";
@@ -67,7 +67,7 @@ void PuntoSurtidor::realizarVenta(float precioCombustible) {
         else if (categoriaPago == '3') {
             formaPago = "T.CREDITO";
         } else {
-            cout << "Opción no válida. Por favor, ingrese 1, 2 o 3." << endl;
+            cout << "Opcion no valida. Por favor, ingrese 1, 2 o 3." << endl;
         }
 
         cout << "Ingrese el documento del cliente: ";
@@ -83,7 +83,7 @@ void PuntoSurtidor::realizarVenta(float precioCombustible) {
 
         monto = cantidadCombustible * precioCombustible;
 
-        // Crear nueva transacción
+        // Crear nueva transaccion
         Transaccion* nuevaTransaccion = new Transaccion(tipoCombustible, cantidadCombustible, formaPago,
                                                         docCliente, monto, precioCombustible);
         // Registrar la transacción
@@ -102,7 +102,7 @@ void PuntoSurtidor::realizarVenta(float precioCombustible) {
 }
 
 void PuntoSurtidor::registrarVenta(Transaccion* transaccion) {
-    // Aumentar el tamaño del arreglo dinámico si es necesario
+    // Aumentar el tamaño del arreglo dinamico si es necesario
     if (this->numTransacciones_ == 10) {
         // Crear un nuevo arreglo de punteros a Transaccion con mayor tamaño
         Transaccion** temp = new Transaccion*[20];
