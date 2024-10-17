@@ -22,6 +22,8 @@ public:
                 const string& formaPago, const string& docCliente, float monto,
                 float precioCombustible);
     void mostrarTransaccion() const; //Metodo de despliegue
+    float getMonto() const;
+    string getTipoCombustible () const;
 };
 
 #endif // TRANSACCION_H
