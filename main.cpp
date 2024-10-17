@@ -11,7 +11,7 @@ void gestionRed(RedNacional* rednacional) {
     int opcion;
     string nombre, gerente, region, codigo;
     unsigned int maxPuntosSurtidores;
-    EstacionServicio* nuevaEstacion;
+    EstacionServicio* nuevaEstacion; // Declarar la variable nuevaEstacion aquí
 
     do {
         cout << "Gestion de la red" << endl;
@@ -27,6 +27,7 @@ void gestionRed(RedNacional* rednacional) {
 
         switch (opcion) {
         case 1:
+            // Solicitar al usuario que ingrese la información necesaria
             cout << "Ingrese el nombre de la estacion: ";
             cin >> nombre;
             cout << "Ingrese el nombre del gerente: ";
@@ -37,10 +38,10 @@ void gestionRed(RedNacional* rednacional) {
             cin >> maxPuntosSurtidores;
             cout << endl << endl;
 
-            // Crea una nueva instancia de EstacionServicio con la información ingresada
+            // Crear una nueva instancia de EstacionServicio con la información ingresada
             nuevaEstacion = new EstacionServicio(nombre, gerente, region, maxPuntosSurtidores);
 
-            // Agrega la estación de servicio a la red nacional
+            // Agregar la estación de servicio a la red nacional
             rednacional->agregarEstacion(nuevaEstacion);
             break;
         case 2:
@@ -52,13 +53,49 @@ void gestionRed(RedNacional* rednacional) {
             // Calcular el monto total de las ventas en cada E/S del país
             break;
         case 4:
+            float precioRegularN,precioPremiumN, precioEcoExtraN, precioRegularC,precioPremiumC, precioEcoExtraC,precioRegularS,precioPremiumS, precioEcoExtraS;
             // Fijar los precios del combustible para toda la red
+
+            cout << "Region Norte"<<endl;
+            cout << "-------------" << endl;
+            cout << "Ingrese el precio del combustible regular: ";
+            cin >> precioRegularN;
+            cout << "Ingrese el precio del combustible premium: ";
+            cin >> precioPremiumN;
+            cout << "Ingrese el precio del combustible EcoExtra: ";
+            cin >> precioEcoExtraN;
+            rednacional->setPreciosCombustible(0,precioRegularN, precioPremiumN, precioEcoExtraN);
+
+            cout << "Region Centro"<<endl;
+            cout << "-------------" << endl;
+            cout << "Ingrese el precio del combustible regular: ";
+            cin >> precioRegularC;
+            cout << "Ingrese el precio del combustible premium: ";
+            cin >> precioPremiumC;
+            cout << "Ingrese el precio del combustible EcoExtra: ";
+            cin >> precioEcoExtraC;
+            rednacional->setPreciosCombustible(1, precioRegularC,precioPremiumC, precioEcoExtraC);
+
+            cout << "Region Sur"<<endl;
+            cout << "-------------" << endl;
+            cout << "Ingrese el precio del combustible regular: ";
+            cin >> precioRegularS;
+            cout << "Ingrese el precio del combustible premium: ";
+            cin >> precioPremiumS;
+            cout << "Ingrese el precio del combustible EcoExtra: ";
+            cin >> precioEcoExtraS;
+            rednacional->setPreciosCombustible(2, precioRegularS,precioPremiumS,precioEcoExtraS);
+
+            cout << "Precios fijados exitosamente."<<endl;
+
             break;
+
         case 5:
-            // cout << "Volviendo al menú principal..." << endl;
-            break;
+            cout << "Volviendo al menu principal..." << endl;
+            return;
         default:
-            ;// cout << "Opción inválida. Intente nuevamente." << endl;
+            cout << "Opcion invalida. Intente nuevamente." << endl;
+            break;
         }
     } while (opcion != 5);
 }
@@ -70,7 +107,7 @@ void gestionEstaciones(RedNacional* rednacional) {
     }
 
     // Seleccionar la estación de servicio
-    cout << "Seleccione el número de la estación: " << endl;
+    cout << "Seleccione el numero de la estacion: " << endl;
     for (unsigned int i = 0; i < rednacional->getNumEstaciones(); ++i) {
         cout << i + 1 << ". " << rednacional->getEstacion(i)->getNombre() << endl;
     }
@@ -78,12 +115,12 @@ void gestionEstaciones(RedNacional* rednacional) {
     cin >> indiceEstacion;
 
     if (indiceEstacion < 1 || indiceEstacion > rednacional->getNumEstaciones()) {
-        cout << "Número de estación no válido." << endl;
+        cout << "Numero de estacion no valido." << endl;
         return;
     }
 
     EstacionServicio* estacionSeleccionada = rednacional->getEstacion(indiceEstacion - 1);
-
+    string modeloSurtidor;
     int opcion;
     do {
         cout << "Gestion de estaciones de servicio" << endl;
@@ -100,9 +137,8 @@ void gestionEstaciones(RedNacional* rednacional) {
         cout << endl << endl;
 
         switch (opcion) {
-        case 1: {
+        case 1:
             // Solicitar al usuario que ingrese el modelo del nuevo surtidor
-            string modeloSurtidor;
             cout << "Ingrese el modelo del nuevo surtidor: ";
             cin >> modeloSurtidor;
 
@@ -110,7 +146,6 @@ void gestionEstaciones(RedNacional* rednacional) {
             estacionSeleccionada->agregarPuntoSurtidor(modeloSurtidor);
 
             break;
-        }
         case 2: {
             string codigoSurtidor;
             char accion;
@@ -134,16 +169,18 @@ void gestionEstaciones(RedNacional* rednacional) {
             break;
         }
         case 3:
-            // Consultar el histórico de transacciones de cada surtidor de la E/S
+            // Consultar el histOrico de transacciones de cada surtidor de la E/S
             break;
         case 4:
-            // Reportar la cantidad de litros vendida según cada categoría de combustible
+            // Reportar la cantidad de litros vendida segUn cada categoría de combustible
             break;
         case 5:
             // Simular una venta de combustible
+            estacionSeleccionada->simularVenta();
             break;
         case 6:
             // Asignar la capacidad del tanque de suministro
+
             break;
         case 7:
             cout << endl << "Volviendo al menu principal..." << endl;
@@ -158,11 +195,6 @@ void gestionEstaciones(RedNacional* rednacional) {
 
 void sistemaVerificacionFugas() {
     // Verificar fugas de combustible en una estación de servicio específica
-}
-
-void simulacionVentas() {
-    // Simular una venta de combustible en una estación
-
 }
 
 
@@ -198,7 +230,7 @@ int main() {
             cout << "Saliendo..." << endl;
             break;
         default:
-            cout << "Opción inválida. Intente nuevamente." << endl;
+            cout << "Opcion invalida. Intente nuevamente." << endl;
         }
     } while (opcion != 5);
 
