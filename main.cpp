@@ -185,6 +185,7 @@ void gestionEstaciones(RedNacional* rednacional) {
             break;
         case 6:
             // Asignar la capacidad del tanque de suministro
+            estacionSeleccionada->setCapacidadTanque();
 
             break;
         case 7:
