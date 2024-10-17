@@ -40,3 +40,11 @@ void Transaccion::mostrarTransaccion() const {
     cout << setw(ancho) << left << "   Fecha y hora:" << fechahora_ << endl;
     cout << "----------------------------------------------------------------" << endl;
 }
+
+string Transaccion::getTipoCombustible() const {
+    return tipoCombustible_;
+}
+
+float Transaccion::getMonto() const {
+    return monto_; // Retorna el monto de la transacción
+}
