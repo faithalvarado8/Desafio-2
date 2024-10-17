@@ -106,7 +106,7 @@ void gestionEstaciones(RedNacional* rednacional) {
         return;
     }
 
-    // Seleccionar la estación de servicio
+    // Seleccionar la estacion de servicio
     cout << "Seleccione el numero de la estacion: " << endl;
     for (unsigned int i = 0; i < rednacional->getNumEstaciones(); ++i) {
         cout << i + 1 << ". " << rednacional->getEstacion(i)->getNombre() << endl;
@@ -121,7 +121,10 @@ void gestionEstaciones(RedNacional* rednacional) {
 
     EstacionServicio* estacionSeleccionada = rednacional->getEstacion(indiceEstacion - 1);
     string modeloSurtidor;
+    string region;
     int opcion;
+    float total[3]={0.0, 0.0, 0.0};
+
     do {
         cout << "Gestion de estaciones de servicio" << endl;
         cout << "-------------" << endl;
@@ -172,11 +175,13 @@ void gestionEstaciones(RedNacional* rednacional) {
             // Consultar el histOrico de transacciones de cada surtidor de la E/S
             break;
         case 4:
-            // Reportar la cantidad de litros vendida segUn cada categoría de combustible
+            // Reportar la cantidad de litros vendida segun cada categoria de combustible
+            cout<< "Regular: " << total[0]<<endl<<"Premium: "<<total[1]<<endl<<"EcoExtra: "<<total[2]<<endl;
             break;
         case 5:
             // Simular una venta de combustible
-            estacionSeleccionada->simularVenta();
+            region=estacionSeleccionada->getRegion();
+            estacionSeleccionada->simularVenta(region, total);
             break;
         case 6:
             // Asignar la capacidad del tanque de suministro
