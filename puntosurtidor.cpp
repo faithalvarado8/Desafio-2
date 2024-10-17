@@ -175,3 +175,4 @@ PuntoSurtidor::~PuntoSurtidor() {
     }
     delete[] transacciones_;
 }
+
