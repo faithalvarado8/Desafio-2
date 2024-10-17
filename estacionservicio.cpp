@@ -14,31 +14,31 @@ EstacionServicio::EstacionServicio(string& nombre, string& gerente, string& regi
     // Genera el código para la nueva instancia de estación
     codigo_ = "EST-" + to_string(contadorCodigo++);
 
-    // Crea e inicializa el tanque con capacidades generadas aleatoriamente
+    // Crear e inicializar el tanque con capacidades generadas aleatoriamente
     setCapacidadTanque();
 
-    // Inicializa el arreglo dinámico de islas
+    // Inicializar el arreglo dinámico de islas
     islas_ = new Isla*[3];  // Máximo 3 islas
     islas_[0] = new Isla("Isla 1", 4);  // Primera isla con 4 surtidores como máximo
-    cout << "Isla creada exitosamente" << endl << endl;
+    cout << "Isla creada exitosamente" << endl;
 
-    // Crea 2 surtidores para la primera isla
+    // Crear 2 surtidores para la primera isla
     PuntoSurtidor* surtidor1 = new PuntoSurtidor("Modelo A", true, 0);
     PuntoSurtidor* surtidor2 = new PuntoSurtidor("Modelo B", true, 0);
 
-    // Agrega los surtidores a la primera isla
+    // Agregar los surtidores a la primera isla
     islas_[0]->agregarPuntoSurtidor(surtidor1);
     islas_[0]->agregarPuntoSurtidor(surtidor2);
 
-    // Inicializa el arreglo de puntos surtidores
+    // Inicializar el arreglo de puntos surtidores
     puntosSurtidores_ = new PuntoSurtidor*[maxPuntosSurtidores_];
 
-    // Agrega los surtidores al arreglo general
+    // Agregar los surtidores al arreglo general
     puntosSurtidores_[0] = surtidor1;
     puntosSurtidores_[1] = surtidor2;
-    numPuntosSurtidores_ = 2;  // Actualiza el contador
+    numPuntosSurtidores_ = 2;  // Actualizar el contador
 
-    numIslas_ = 1;
+    numIslas_ = 1;  // Hemos agregado una isla
 }
 
 void EstacionServicio::setCapacidadTanque() {
@@ -147,7 +147,6 @@ void EstacionServicio::agregarPuntoSurtidor(string& modelo) {
     cout << "Total de surtidores: " << numPuntosSurtidores_ << endl << endl;
 }
 
-
 void EstacionServicio::eliminarPuntoSurtidor(const string& codigo) {
     bool encontrado = false;
     for (unsigned int i = 0; i < numPuntosSurtidores_; i++) {
@@ -157,13 +156,13 @@ void EstacionServicio::eliminarPuntoSurtidor(const string& codigo) {
                 puntosSurtidores_[j] = puntosSurtidores_[j + 1];
             }
             numPuntosSurtidores_--;
-            cout << "Surtidor eliminado correctamente." << endl << endl;
+            cout << "Surtidor eliminado correctamente." << endl<< endl;
             encontrado = true;
             break;
         }
     }
     if (!encontrado) {
-        cout << "Surtidor no encontrado." << endl << endl;
+        cout << "Surtidor no encontrado." << endl<< endl;
     }
 }
 
@@ -171,11 +170,11 @@ void EstacionServicio::activarPuntoSurtidor(const string& codigo) {
     for (unsigned int i = 0; i < numPuntosSurtidores_; i++) {
         if (puntosSurtidores_[i]->getCodigo() == codigo) {
             puntosSurtidores_[i]->setEstado(true);
-            cout << "Surtidor activado." << endl << endl;
+            cout << "Surtidor activado." << endl;
             return;
         }
     }
-    cout << "Surtidor no encontrado." << endl << endl;
+    cout << "Surtidor no encontrado." << endl;
 }
 
 void EstacionServicio::desactivarPuntoSurtidor(const string& codigo) {
@@ -184,23 +183,23 @@ void EstacionServicio::desactivarPuntoSurtidor(const string& codigo) {
         if (puntosSurtidores_[i]->getCodigo() == codigo) {
             if (puntosSurtidores_[i]->getEstado()) {
                 puntosSurtidores_[i]->setEstado(false);
-                cout << "Surtidor " << codigo << " desactivado correctamente." << endl << endl;
+                cout << "Surtidor " << codigo << " desactivado correctamente." << endl<< endl;
             } else {
-                cout << "Surtidor " << codigo << " ya esta desactivado." << endl << endl;
+                cout << "Surtidor " << codigo << " ya esta desactivado." << endl<< endl;
             }
             encontrado = true;
             break;
         }
     }
     if (!encontrado) {
-        cout << "Surtidor " << codigo << " no encontrado." << endl << endl;
+        cout << "Surtidor " << codigo << " no encontrado." << endl<< endl;
     }
 }
 
 // Simular una venta
 void EstacionServicio::simularVenta() {
     if (numPuntosSurtidores_ == 0) {
-        cout << "No hay surtidores disponibles para realizar una venta." << endl << endl;
+        cout << "No hay surtidores disponibles para realizar una venta." << endl<< endl;
         return;
     }
 
@@ -212,7 +211,7 @@ void EstacionServicio::simularVenta() {
     }
 
     if (contadorActivos == 0) {
-        cout << "No hay surtidores activos para realizar una venta." << endl << endl;
+        cout << "No hay surtidores activos para realizar una venta." << endl<< endl;
         return;
     }
 
@@ -256,11 +255,11 @@ void EstacionServicio::consultarTransaccionesPuntoSurtidor(const string& codigo)
 }
 
 void EstacionServicio::reportarLitrosVendidos() {
-    cout << "Reporte de litros vendidos por categoría..." << endl;
+    cout << "Reporte de litros vendidos por categoria..." << endl;
 }
 
 void EstacionServicio::calcularVentasTotales() {
-    cout << "Cálculo de ventas totales..." << endl;
+    cout << "Calculo de ventas totales..." << endl;
 }
 
 bool EstacionServicio::verificarFugas() {
