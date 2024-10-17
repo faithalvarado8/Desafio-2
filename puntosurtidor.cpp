@@ -152,7 +152,6 @@ void PuntoSurtidor::registrarVenta(Transaccion* transaccion) {
 }
 
 void PuntoSurtidor::mostrarHistorico(bool mostrarUltima) {
-    cout << "Historial de transacciones:\n";
 
     if (numTransacciones_ == 0) {
         cout << "No hay transacciones registradas." << endl;
@@ -176,3 +175,13 @@ PuntoSurtidor::~PuntoSurtidor() {
     delete[] transacciones_;
 }
 
+unsigned int PuntoSurtidor::getNumTransacciones() const {
+    return numTransacciones_; // Retorna el número de transacciones registradas
+}
+
+Transaccion* PuntoSurtidor::getTransaccion(unsigned int index) const {
+    if (index < numTransacciones_) {
+        return transacciones_[index]; // Retorna la transacción en el índice especificado
+    }
+    return nullptr; // Retorna nullptr si el índice es inválido
+}
