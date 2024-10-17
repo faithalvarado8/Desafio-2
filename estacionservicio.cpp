@@ -197,7 +197,7 @@ void EstacionServicio::desactivarPuntoSurtidor(const string& codigo) {
 }
 
 // Simular una venta
-void EstacionServicio::simularVenta() {
+void EstacionServicio::simularVenta(string& region, float (&total)[3]) {
     if (numPuntosSurtidores_ == 0) {
         cout << "No hay surtidores disponibles para realizar una venta." << endl<< endl;
         return;
@@ -230,15 +230,11 @@ void EstacionServicio::simularVenta() {
     int indexSurtidor = distr(gen);
     PuntoSurtidor* surtidorSeleccionado = puntosSurtidores_[surtidoresActivos[indexSurtidor]];
 
-    uniform_int_distribution<> cantidadDist(3, 20);
-    int cantidadCombustible = cantidadDist(gen);
-
     cout << "Realizando venta en el surtidor: " << surtidorSeleccionado->getCodigo() << endl;
-    float precioCombustible = 1.5;
-    surtidorSeleccionado->realizarVenta(precioCombustible);
 
-    cout << "Se han vendido " << cantidadCombustible << " litros de gasolina." << endl;
-    surtidorSeleccionado->mostrarHistorico();
+    surtidorSeleccionado->realizarVenta(region, total);
+
+    surtidorSeleccionado->mostrarHistorico(true);
 
     delete[] surtidoresActivos;
 }
@@ -247,7 +243,7 @@ void EstacionServicio::simularVenta() {
 void EstacionServicio::consultarTransaccionesPuntoSurtidor(const string& codigo) {
     for (unsigned int i = 0; i < numPuntosSurtidores_; i++) {
         if (puntosSurtidores_[i]->getCodigo() == codigo) {
-            puntosSurtidores_[i]->mostrarHistorico();
+            puntosSurtidores_[i]->mostrarHistorico(false);
             return;
         }
     }
