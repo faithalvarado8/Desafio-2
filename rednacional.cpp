@@ -39,6 +39,10 @@ void RedNacional::setPreciosCombustible(int region, float precioRegular, float p
     preciosCombustible_[region][2] = precioEcoExtra;
 }
 
+float RedNacional::getPreciosCombustible(int region, int tipoCombustible){
+    return preciosCombustible_[region][tipoCombustible];
+}
+
 RedNacional::~RedNacional() {
     for (unsigned int i = 0; i < numEstaciones_; i++) {
         delete estaciones_[i];  // Libera memoria de cada estación
@@ -74,7 +78,6 @@ void RedNacional::agregarEstacion(EstacionServicio* nuevaEstacion) {
     //Genera el código a la nueva estación
     cout << nuevaEstacion->getCodigo() << endl;
 
-    //Crea el tanque y asigna capacidad de los compartimientos aleatoriamente
     numEstaciones_++;
 }
 
@@ -110,6 +113,7 @@ void RedNacional::eliminarEstacion(string codigoEstacion) {
     // Eliminar la estacion y liberar memoria correctamente
     delete estaciones_[indiceEstacion]; // Elimina la estación y todos sus recursos
 
+    // Reorganizar el arreglo de estaciones
     for (unsigned int i = indiceEstacion; i < numEstaciones_ - 1; i++) {
         estaciones_[i] = estaciones_[i + 1];
     }
