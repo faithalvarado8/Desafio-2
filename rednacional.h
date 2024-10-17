@@ -19,7 +19,7 @@ public:
     void setPreciosCombustible(int region, float precioRegular, float precioPremium, float precioEcoExtra);
     float getPreciosCombustible(int region, int tipoCombustible);
 
-    unsigned int getNumEstaciones() const;
+    unsigned int getNumEstaciones() const; // Método para obtener el número de estaciones
     EstacionServicio* getEstacion(unsigned int index) const; // Método para obtener una estación por su índice
 
 };
