@@ -23,10 +23,10 @@ public:
     string getModelo();
     bool setEstado(bool estado);
     bool getEstado() const;
-    void realizarVenta(float precioCombustible);
+    void realizarVenta(string& region, float (&total)[3]);
     void registrarVenta(Transaccion* venta);
 
-    void mostrarHistorico();
+    void mostrarHistorico(bool mostrarUltima);
 
     ~PuntoSurtidor();
 };
