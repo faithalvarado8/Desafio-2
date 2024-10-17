@@ -24,7 +24,7 @@ private:
     unsigned int numIslas_;        // Número actual de islas en la estación
     const unsigned int maxIslas_ = 3; // Capacidad máxima de islas
     unsigned int numPuntosSurtidores_ = 0;
-    unsigned int maxPuntosSurtidores_=12;
+    unsigned int maxPuntosSurtidores_= 12;
     PuntoSurtidor** puntosSurtidores_;
     Transaccion** transacciones_;
 
@@ -67,3 +67,4 @@ public:
 };
 
 #endif // ESTACIONSERVICIO_H
+
