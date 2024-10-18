@@ -24,6 +24,7 @@ public:
     void mostrarTransaccion() const; //Metodo de despliegue
     float getMonto() const;
     string getTipoCombustible () const;
+    float getCantidadCombustible() const;
 };
 
 #endif // TRANSACCION_H
