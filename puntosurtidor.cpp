@@ -1,5 +1,4 @@
 #include "puntosurtidor.h"
-#include "isla.h"
 #include "rednacional.h"
 #include "estacionservicio.h"
 
@@ -29,7 +28,7 @@ bool PuntoSurtidor::getEstado() const {
     return activado_; // Retorna el estado actual del surtidor
 }
 
-void PuntoSurtidor::realizarVenta(string& region, float (&total)[3]) {
+void PuntoSurtidor::realizarVenta(RedNacional* rednacional,string& region, float (&total)[3], EstacionServicio* estacion) {
 
     if (activado_) {
 
@@ -68,8 +67,19 @@ void PuntoSurtidor::realizarVenta(string& region, float (&total)[3]) {
             cout << "Opcion no valida. Por favor, ingrese 1, 2 o 3." << endl;
         }
 
+        // Obtener el precio del combustible de la instancia de RedNacional
+        precioCombustible = rednacional->getPreciosCombustible(numregion, categoriaCombustible - 1);
+
         cout << "Ingrese la cantidad de combustible a expender (litros): ";
         cin >> cantidadCombustible;
+
+        // Verificar si hay suficiente combustible disponible en el tanque de la estación
+        float cantidadDisponible = estacion->getCantidadDisponible(tipoCombustible);
+        if (cantidadCombustible > cantidadDisponible) {
+            cout << "En este momento no disponemos de esa cantidad de combustible. " << endl;
+            cout << "Se expedira y cobrara la cantidad disponible." << endl;
+            cantidadCombustible=cantidadDisponible;
+        }
 
         cout << "Forma de pago: EFECTIVO(1), T.DEBITO(2), T.CREDITO(3): ";
         cin >> categoriaPago;
@@ -88,14 +98,20 @@ void PuntoSurtidor::realizarVenta(string& region, float (&total)[3]) {
         cout << "Ingrese el documento del cliente: ";
         cin >> docCliente;
 
-        float cantidadDisponible = Isla::getCantidadDisponible(tipoCombustible);
+        // Realiza el calculo del monto y registra la transaccion
+        monto = cantidadCombustible * precioCombustible;
 
-        if (cantidadCombustible > cantidadDisponible) {
-            cantidadCombustible = cantidadDisponible;
-            cout << "En este momento no disponemos de esa cantidad de combustible. " << endl;
-            cout << "Se expedira y cobrara la cantidad disponible." << endl;
-        }
+        // Crear nueva transaccion
+        Transaccion* nuevaTransaccion = new Transaccion(tipoCombustible, cantidadCombustible, formaPago,
+                                                        docCliente, monto, precioCombustible);
+        // Registrar la transacción
+        transacciones_[numTransacciones_] = nuevaTransaccion;
+        numTransacciones_++;
 
+        // Reducir la cantidad de combustible en el tanque
+        estacion->reducirCombustible(tipoCombustible, cantidadCombustible);
+
+        // Actualizar el total
         if (categoriaCombustible == 1) {
             total[0]+=cantidadCombustible;
         }
@@ -106,22 +122,7 @@ void PuntoSurtidor::realizarVenta(string& region, float (&total)[3]) {
             total[2]+=cantidadCombustible;
         }
 
-        RedNacional* precios = new RedNacional();
-        precioCombustible=precios->getPreciosCombustible(numregion, categoriaCombustible-1);
-
-        monto = cantidadCombustible * precioCombustible;
-
-        // Crear nueva transaccion
-        Transaccion* nuevaTransaccion = new Transaccion(tipoCombustible, cantidadCombustible, formaPago,
-                                                        docCliente, monto, precioCombustible);
-        // Registrar la transacción
-        transacciones_[numTransacciones_] = nuevaTransaccion;
-
-        // Incrementar el contador
-        numTransacciones_++;
-
         cout << "Venta realizada con exito." << endl;
-        delete precios;
 
         return;
 
