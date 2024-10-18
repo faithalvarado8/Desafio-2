@@ -148,7 +148,7 @@ void EstacionServicio::eliminarPuntoSurtidor(const string& codigo) {
         if (puntosSurtidores_[i]->getCodigo() == codigo) {
             // Verificar si el surtidor está activado
             if (puntosSurtidores_[i]->getEstado()) {
-                cout << "El surtidor con el código " << codigo << " debe estar desactivado para ser eliminado." << endl;
+                cout << "El surtidor con el codigo " << codigo << " debe estar desactivado para ser eliminado." << endl;
                 return; // Salir del método si está activado
             }
 
@@ -254,19 +254,6 @@ void EstacionServicio::consultarTransaccionesPuntoSurtidor(const string& codigo)
     cout << "Surtidor no encontrado." << endl;
 }
 
-void EstacionServicio::reportarLitrosVendidos() {
-    cout << "Reporte de litros vendidos por categoria..." << endl;
-}
-
-void EstacionServicio::calcularVentasTotales() {
-    cout << "Calculo de ventas totales..." << endl;
-}
-
-bool EstacionServicio::verificarFugas() {
-    cout << "Verificando fugas en el tanque..." << endl;
-    return false;
-}
-
 unsigned int EstacionServicio::getNumIslas() const {
     return numIslas_;
 }
@@ -295,4 +282,8 @@ float EstacionServicio::getCantidadDisponible(const string& tipoCombustible) {
 
 void EstacionServicio::reducirCombustible(const string& tipoCombustible, float cantidad) {
     tanque_->reducirCantidad(tipoCombustible, cantidad);
+}
+
+Tanque* EstacionServicio::getTanque() const {
+    return tanque_; // Devuelve el puntero al tanque
 }
