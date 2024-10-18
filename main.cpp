@@ -10,10 +10,9 @@ using namespace std;
 void gestionRed(RedNacional* rednacional) {
     int opcion;
     string nombre, gerente, region, codigo;
-    unsigned int maxPuntosSurtidores=12;
-    EstacionServicio* nuevaEstacion;
     unsigned int numEstaciones;
     float totalVentas;
+    unsigned int maxPuntosSurtidores=12;
 
     do {
         cout << "Gestion de la red" << endl;
@@ -38,11 +37,8 @@ void gestionRed(RedNacional* rednacional) {
             cin >> region;
             cout << endl << endl;
 
-            // Crear una nueva instancia de EstacionServicio con la información ingresada
-            nuevaEstacion = new EstacionServicio(nombre, gerente, region, maxPuntosSurtidores);
-
-            // Agregar la estación de servicio a la red nacional
-            rednacional->agregarEstacion(nuevaEstacion);
+            // Crear la nueva estacion
+            rednacional->agregarEstacion(new EstacionServicio(nombre, gerente, region, maxPuntosSurtidores));
             break;
         case 2:
             cout << "Ingrese codigo E/S a eliminar(Formato: EST-codigo): ";
@@ -201,7 +197,7 @@ void gestionEstaciones(RedNacional* rednacional) {
             cout << "Ingrese el codigo del surtidor a eliminar: ";
             cin >> codigoSurtidor;
 
-            //Llamar al metodo eliminarPuntoSurtidor de la estación seleccionada
+            //Llamar al metodo eliminarPuntoSurtidor de la estacióon seleccionada
             estacionSeleccionada->eliminarPuntoSurtidor(codigoSurtidor);
             break;
         }
@@ -231,7 +227,7 @@ void gestionEstaciones(RedNacional* rednacional) {
 
         case 4:
             if (estacionSeleccionada->getNumIslas() == 0) {
-                cout << "No hay islas en la estación." << endl;
+                cout << "No hay islas en la estacion." << endl;
                 return;
             }
             // Itera sobre cada isla en la estación
@@ -259,13 +255,13 @@ void gestionEstaciones(RedNacional* rednacional) {
 
             break;
         case 5:
-            // Reportar la cantidad de litros vendida segun cada categoria de combustible
+            // Reporta la cantidad de litros vendida segun cada categoria de combustible
             cout<< "Regular: " << total[0]<<endl<<"Premium: "<<total[1]<<endl<<"EcoExtra: "<<total[2]<<endl;
             break;
         case 6:
-            // Simular una venta de combustible
+            // Simula una venta de combustible
             region=estacionSeleccionada->getRegion();
-            estacionSeleccionada->simularVenta(region, total);
+            estacionSeleccionada->simularVenta(rednacional, region, total);
             break;
         case 7:
             estacionSeleccionada->setCapacidadTanque();
@@ -279,8 +275,6 @@ void gestionEstaciones(RedNacional* rednacional) {
         }
     } while (opcion != 8);
 }
-
-
 
 void sistemaVerificacionFugas() {
     // Verificar fugas de combustible en una estación de servicio específica
@@ -309,7 +303,7 @@ int main() {
             gestionEstaciones(rednacional);
             break;
         case 3:
-            //sistemaVerificacionFugas();
+            sistemaVerificacionFugas();
             break;
         case 4:
             cout << "Saliendo..." << endl;
