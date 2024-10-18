@@ -201,7 +201,7 @@ void EstacionServicio::desactivarPuntoSurtidor(const string& codigo) {
 }
 
 // Simular una venta
-void EstacionServicio::simularVenta(string& region, float (&total)[3]) {
+void EstacionServicio::simularVenta(RedNacional* rednacional, string& region, float (&total)[3]) {
     if (numPuntosSurtidores_ == 0) {
         cout << "No hay surtidores disponibles para realizar una venta." << endl<< endl;
         return;
@@ -236,7 +236,7 @@ void EstacionServicio::simularVenta(string& region, float (&total)[3]) {
 
     cout << "Realizando venta en el surtidor: " << surtidorSeleccionado->getCodigo() << endl;
 
-    surtidorSeleccionado->realizarVenta(region, total);
+    surtidorSeleccionado->realizarVenta(rednacional, region, total, this);
 
     surtidorSeleccionado->mostrarHistorico(true);
 
@@ -287,4 +287,12 @@ EstacionServicio::~EstacionServicio() {
         delete islas_[i]; // Cada isla elimina sus propios surtidores
     }
     delete[] islas_; // Liberar el arreglo de islas
+}
+
+float EstacionServicio::getCantidadDisponible(const string& tipoCombustible) {
+    return tanque_->getCantidadDisponible(tipoCombustible);
+}
+
+void EstacionServicio::reducirCombustible(const string& tipoCombustible, float cantidad) {
+    tanque_->reducirCantidad(tipoCombustible, cantidad);
 }
