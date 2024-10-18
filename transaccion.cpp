@@ -11,7 +11,7 @@ Transaccion::Transaccion(const string& tipoCombustible, float cantidadCombustibl
     docCliente_(docCliente),
     monto_(monto),
     precioCombustible_(precioCombustible){
-    
+
     // Obtener la fecha y hora del sistema
     auto now = chrono::system_clock::now();
     auto in_time_t = chrono::system_clock::to_time_t(now);
@@ -22,13 +22,13 @@ Transaccion::Transaccion(const string& tipoCombustible, float cantidadCombustibl
 
 //Metodo de despliegue
 void Transaccion::mostrarTransaccion() const {
-    
+
     cout << endl << endl << endl;
     cout << "----------------------------------------------------------------" << endl;
     cout << "                              TERMAX                            " << endl;
     cout << "                      RECIBO DE TRANSACCION                     " << endl;
     cout << "----------------------------------------------------------------" << endl;
-    
+
     unsigned int ancho = 40;
     cout << setw(ancho) << left << "   Tipo de combustible:" << tipoCombustible_ << endl;
     cout << setw(ancho) << left << "   Cantidad de combustible (litros):" << cantidadCombustible_ << endl;
@@ -47,4 +47,8 @@ string Transaccion::getTipoCombustible() const  {
 
 float Transaccion::getMonto() const {
     return monto_; // Retorna el monto de la transacción
+}
+
+float Transaccion::getCantidadCombustible() const {
+    return cantidadCombustible_; // Devuelve la cantidad de combustible
 }
