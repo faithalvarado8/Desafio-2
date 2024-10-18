@@ -1,7 +1,8 @@
 #include "compartimiento.h"
 
 //Constructor
-Compartimiento::Compartimiento(float capacidad): capacidad_(capacidad), cantidadActual_(0.0) {}
+Compartimiento::Compartimiento(float capacidad): capacidad_(capacidad), cantidadActual_(0.0) {
+}
 
 //Getters
 float Compartimiento::getCapacidad() const {
@@ -10,7 +11,7 @@ float Compartimiento::getCapacidad() const {
 float Compartimiento::getCantidadActual() const{
     return cantidadActual_;
 }
-//Setters
+
 void Compartimiento::setCantidadActual(float cantidad){
     cantidadActual_ = cantidad;
 }
