@@ -58,15 +58,14 @@ public:
 
     void simularVenta(RedNacional* rednacional, string& region, float (&total)[3]);
     void consultarTransaccionesPuntoSurtidor(const string& codigo);
-    void reportarLitrosVendidos();
-    void calcularVentasTotales();
-    bool verificarFugas();
 
     unsigned int getNumIslas() const;  // Metodo para obtener el número de islas
     Isla* getIsla(unsigned int index) const;  // Mrtodo para obtener una isla por índice
 
     float getCantidadDisponible(const string& tipoCombustible);
     void reducirCombustible(const string& tipoCombustible, float cantidad);
+
+    Tanque* getTanque() const;
 };
 
 #endif // ESTACIONSERVICIO_H
