@@ -1,6 +1,8 @@
 #ifndef TANQUE_H
 #define TANQUE_H
 #include "compartimiento.h"
+#include <string>
+using namespace std;
 
 class Tanque{
 private:
@@ -21,6 +23,9 @@ public:
     Compartimiento& setRegular();
     Compartimiento& setPremium();
     Compartimiento& setEcoExtra();
+
+    float getCantidadDisponible(const string& tipoCombustible) const;
+    void reducirCantidad(const string& tipoCombustible, float cantidad);
 
 };
 
