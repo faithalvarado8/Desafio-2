@@ -18,4 +18,3 @@ public:
 };
 
 #endif // COMPARTIMIENTO_H
-
