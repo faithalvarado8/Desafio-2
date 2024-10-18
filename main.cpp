@@ -33,7 +33,7 @@ void gestionRed(RedNacional* rednacional) {
             cin >> nombre;
             cout << "Ingrese el nombre del gerente: ";
             cin >> gerente;
-            cout << "Ingrese la region: ";
+            cout << "Ingrese la region (NORTE, CENTRO, SUR): ";
             cin >> region;
             cout << endl << endl;
 
@@ -52,11 +52,12 @@ void gestionRed(RedNacional* rednacional) {
                 cout << "No hay estaciones en la red." << endl;
                 return;
             }
+
             for (unsigned int i = 0; i < numEstaciones; ++i) {
                 EstacionServicio* estacion = rednacional->getEstacion(i);
                 totalVentas = 0.0;
                 float ventasPorTipo[3] = {0.0, 0.0, 0.0};
-                cout<< "Calculando las ventas de la estacion: "<<estacion->getCodigo()<<endl;
+                cout<< "Calculando las ventas de la estacion: "<<estacion->getNombre()<<endl;
                 // Itera sobre cada isla en la estacion
                 for (unsigned int i = 0; i < estacion->getNumIslas(); ++i) {
                     Isla* islaEst = estacion->getIsla(i);
@@ -87,6 +88,7 @@ void gestionRed(RedNacional* rednacional) {
                 if (totalVentas==0){
                     cout<< "No se han realizado ventas en esta estacion"<<endl;
                 }
+                cout<< "El monto total de las ventas en la estacion "<<estacion->getNombre()<<" es "<<totalVentas<<": "<<ventasPorTipo[0]<<" por combustible Regular, "<<ventasPorTipo[1]<<" por combustible Premium y "<<ventasPorTipo[2]<<" por combustible EcoExtra."<<endl;
             }
 
             break;
@@ -276,8 +278,72 @@ void gestionEstaciones(RedNacional* rednacional) {
     } while (opcion != 8);
 }
 
-void sistemaVerificacionFugas() {
-    // Verificar fugas de combustible en una estación de servicio específica
+void sistemaVerificacionFugas(RedNacional* rednacional) {
+    // Verificar fugas de combustible en una estacion de servicio especifica
+    unsigned int numEstaciones = rednacional->getNumEstaciones();
+    if (numEstaciones == 0) {
+        cout << "No hay estaciones en la red." << endl;
+        return;
+    }
+
+    // Ciclo para recorrer cada estacion en la red
+    for (unsigned int i = 0; i < numEstaciones; ++i) {
+        EstacionServicio* estacion = rednacional->getEstacion(i);
+        bool fuga=false;
+
+        // Inicializar las cantidades vendidas
+        float vendidoRegular = 0.0;
+        float vendidoPremium = 0.0;
+        float vendidoEcoExtra = 0.0;
+
+        // Calcular el total vendido de cada tipo de combustible
+        for (unsigned int j = 0; j < estacion->getNumIslas(); ++j) {
+            Isla* isla = estacion->getIsla(j);
+            for (unsigned int k = 0; k < isla->getNumSurtidores(); ++k) {
+                PuntoSurtidor* surtidor = isla->getPuntoSurtidor(k);
+                for (unsigned int l = 0; l < surtidor->getNumTransacciones(); ++l) {
+                    Transaccion* transaccion = surtidor->getTransaccion(l);
+                    float cantidad = transaccion->getCantidadCombustible(); // Asumiendo que tienes este método
+
+                    // Sumar la cantidad vendida según el tipo de combustible
+                    if (transaccion->getTipoCombustible() == "REGULAR") {
+                        vendidoRegular += cantidad;
+                    } else if (transaccion->getTipoCombustible() == "PREMIUM") {
+                        vendidoPremium += cantidad;
+                    } else if (transaccion->getTipoCombustible() == "ECOEXTRA") {
+                        vendidoEcoExtra += cantidad;
+                    }
+                }
+            }
+        }
+
+        // Obtener la capacidad total de combustible en el tanque
+        float capacidadRegular = estacion->getTanque()->getRegular().getCapacidad();
+        float capacidadPremium = estacion->getTanque()->getPremium().getCapacidad();
+        float capacidadEcoExtra = estacion->getTanque()->getEcoExtra().getCapacidad();
+
+        // Obtener la cantidad disponible en el tanque
+        float cantidadDisponibleRegular = estacion->getCantidadDisponible("REGULAR");
+        float cantidadDisponiblePremium = estacion->getCantidadDisponible("PREMIUM");
+        float cantidadDisponibleEcoExtra = estacion->getCantidadDisponible("ECOEXTRA");
+
+        // Verificar fugas para cada tipo de combustible
+        if (vendidoRegular + cantidadDisponibleRegular < 0.95 * capacidadRegular) {
+            cout << "Posible fuga en la estacion " << estacion->getNombre() << " (REGULAR)" << endl;
+            fuga=true;
+        }
+        if (vendidoPremium + cantidadDisponiblePremium < 0.95 * capacidadPremium) {
+            cout << "Posible fuga en la estacion " << estacion->getNombre() << " (PREMIUM)" << endl;
+            fuga=true;
+        }
+        if (vendidoEcoExtra + cantidadDisponibleEcoExtra < 0.95 * capacidadEcoExtra) {
+            cout << "Posible fuga en la estacion " << estacion->getNombre() << " (ECOEXTRA)" << endl;
+            fuga=true;
+        }
+        if (!fuga){
+            cout<< "No hay ninguna posible fuga en la estacion "<<estacion->getNombre()<<endl;
+        }
+    }
 }
 
 
@@ -303,7 +369,7 @@ int main() {
             gestionEstaciones(rednacional);
             break;
         case 3:
-            sistemaVerificacionFugas();
+            sistemaVerificacionFugas(rednacional);
             break;
         case 4:
             cout << "Saliendo..." << endl;
