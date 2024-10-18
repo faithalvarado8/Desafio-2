@@ -53,6 +53,7 @@ void PuntoSurtidor::realizarVenta(RedNacional* rednacional,string& region, float
         }
 
         cout << "Tipo de combustible: REGULAR(1), PREMIUM(2), ECOEXTRA(3): ";
+        do{
         cin >> categoriaCombustible;
         if (categoriaCombustible == 1) {
             tipoCombustible = "REGULAR";
@@ -66,12 +67,19 @@ void PuntoSurtidor::realizarVenta(RedNacional* rednacional,string& region, float
         } else {
             cout << "Opcion no valida. Por favor, ingrese 1, 2 o 3." << endl;
         }
+        }while (categoriaCombustible!=1 && categoriaCombustible!=2 && categoriaCombustible!=3);
 
         // Obtener el precio del combustible de la instancia de RedNacional
         precioCombustible = rednacional->getPreciosCombustible(numregion, categoriaCombustible - 1);
 
         cout << "Ingrese la cantidad de combustible a expender (litros): ";
-        cin >> cantidadCombustible;
+
+        do{
+            cin >> cantidadCombustible;
+            if (categoriaCombustible<3 || cantidadCombustible>20){
+            cout << "Cantidad invalida. Ingrese nuevamente la cantidad de combustible a expender (litros): ";
+            }
+        }while (cantidadCombustible<3 || cantidadCombustible>20);
 
         // Verificar si hay suficiente combustible disponible en el tanque de la estación
         float cantidadDisponible = estacion->getCantidadDisponible(tipoCombustible);
@@ -82,18 +90,20 @@ void PuntoSurtidor::realizarVenta(RedNacional* rednacional,string& region, float
         }
 
         cout << "Forma de pago: EFECTIVO(1), T.DEBITO(2), T.CREDITO(3): ";
-        cin >> categoriaPago;
-        if (categoriaPago == '1') {
-            formaPago = "EFECTIVO";
-        }
-        else if (categoriaPago == '2') {
-            formaPago = "T.DEBITO";
-        }
-        else if (categoriaPago == '3') {
-            formaPago = "T.CREDITO";
-        } else {
-            cout << "Opcion no valida. Por favor, ingrese 1, 2 o 3." << endl;
-        }
+        do{
+            cin >> categoriaPago;
+            if (categoriaPago == '1') {
+                formaPago = "EFECTIVO";
+            }
+            else if (categoriaPago == '2') {
+                formaPago = "T.DEBITO";
+            }
+            else if (categoriaPago == '3') {
+                formaPago = "T.CREDITO";
+            } else {
+                cout << "Opcion no valida. Por favor, ingrese 1, 2 o 3." << endl;
+            }
+        } while(categoriaPago!='1' && categoriaPago!='2' && categoriaPago!='3');
 
         cout << "Ingrese el documento del cliente: ";
         cin >> docCliente;
