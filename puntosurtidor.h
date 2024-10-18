@@ -5,6 +5,10 @@
 #include <string>
 #include "transaccion.h"
 
+class RedNacional;
+
+class EstacionServicio;
+
 using namespace std;
 
 class PuntoSurtidor {
@@ -13,8 +17,10 @@ private:
     static unsigned int contadorCodigo;
     string codigo_;
     string modelo_;
+    EstacionServicio* estacion;
     Transaccion** transacciones_;
     unsigned int numTransacciones_; //Para establecer el tamaño del arreglo
+    RedNacional* rednacional;
 
 public:
     PuntoSurtidor(string modelo, bool activado, unsigned int numTransacciones_);
@@ -23,7 +29,7 @@ public:
     string getModelo();
     bool setEstado(bool estado);
     bool getEstado() const;
-    void realizarVenta(string& region, float (&total)[3]);
+    void realizarVenta(RedNacional* rednacional, string& region, float (&total)[3], EstacionServicio* estacion);
     void registrarVenta(Transaccion* venta);
 
     void mostrarHistorico(bool mostrarUltima);
